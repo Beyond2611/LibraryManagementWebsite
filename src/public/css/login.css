@@ -1,0 +1,267 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.interface {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+/* Side image*/
+
+.side-background-image {
+    position: relative;
+    width: 50%;
+    height: 100%;
+}
+
+img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* Form login */
+
+.container {
+    display: flex;
+    width: 50%;
+    background: rgba(248, 224, 199, 0.83);
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-login {
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-login h2 {
+    display: inline-block;
+    color: rgb(198, 123, 123);
+    font-weight: 600;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    border-bottom: 0.2em solid #ff3779;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.form-login label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    color: rgb(183, 106, 106);
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.input-login {
+    margin-bottom: 8px;
+}
+
+.input-login i.fa-check-circle {
+    visibility: hidden;
+    position: absolute;
+    margin-left: 5px;
+    margin-top: 10.5px;
+}
+
+.input-login i.fa-exclamation-circle {
+    visibility: hidden;
+    position: absolute;
+    margin-left: 5px;
+    margin-top: 10.5px;
+}
+
+.input-login.success i.fa-check-circle {
+    color: #2ecc71;
+    visibility: visible;
+}
+
+.input-login.error i.fa-exclamation-circle {
+    color: #e74c3c;
+    visibility: visible;
+}
+
+.form-login .input-group {
+    display: flex;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #607d8b;
+}
+
+.input-group input[type="password"],
+input[type="text"] {
+    border: 0;
+    outline: 0;
+    width: 100%;
+    padding: 10px 10px;
+    font-weight: 400;
+    font-size: 15px;
+    letter-spacing: 1px;
+    background: transparent;
+}
+
+.input-login.success i.fa-check-circle {
+    color: #2ecc71;
+    visibility: visible;
+}
+
+.input-login.error i.fa-exclamation-circle {
+    color: #e74c3c;
+    visibility: visible;
+}
+
+.input-group i {
+    color: #ff3779;
+    cursor: pointer;
+    margin-left: 1.5px;
+    margin-top: 10px;
+}
+
+.input-login small {
+    color: #e74c3c;
+    visibility: hidden;
+}
+
+.input-login.error small {
+    visibility: visible;
+}
+
+.remember label {
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.form-login input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.submit-btn {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.submit-btn input[type="submit"] {
+    cursor: pointer;
+    width: 100%;
+    border: 1px solid #607d8b;
+    padding: 10px 11px;
+    font-weight: 400;
+    font-size: 15px;
+    letter-spacing: 1px;
+    border-radius: 20px;
+    color: white;
+    background-color: #ff3779;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.submit-btn input[type="submit"]:hover {
+    background-color: rgb(234, 231, 231);
+    color: #ff3779;
+}
+
+.form-login a {
+    text-decoration: none;
+    color: #ff3779;
+}
+
+.form-login form a:hover {
+    color: white;
+}
+
+.form-login form a:active {
+    opacity: 0.4;
+}
+
+.change-password-login {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.signup-login {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.remember {
+    margin-bottom: 20px;
+}
+
+.form-login h3 {
+    color: rgb(199, 111, 111);
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.form-login .list-sci {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-login .list-sci li {
+    list-style: none;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5efce;
+    border-radius: 50%;
+    margin: 0 7px;
+    cursor: pointer;
+}
+
+.form-login .list-sci li:hover {
+    background-color: white;
+}
+
+.form-login .list-sci li:active {
+    opacity: 0.5;
+}
+
+
+/* Responsive */
+
+@media (max-width: 720px) {
+    .side-background-image {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+    .container {
+        display: flex;
+        background: none;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+    .form-login {
+        width: 100%;
+        padding: 30px;
+        background: rgba(254, 250, 250, 0.83);
+        margin: 50px;
+    }
+    .form-login form a:hover {
+        color: rgb(248, 170, 170);
+    }
+}

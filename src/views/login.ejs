@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script defer src="/js/login.js"></script>
+    <link rel="stylesheet" href="/css/login.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+</head>
+
+<body>
+    <div class="interface">
+        <div class="side-background-image">
+            <img src="https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2020/10/5/842222/F4bfd9e1649e82dcfdbe.jpg" alt="background-image">
+        </div>
+        <div class="container">
+            <div class="form-login">
+                <div style="text-align:center">
+                    <h2>Login</h2>
+                </div>
+                <form id="form" action="/login-auth" method="POST">
+                    <div class="input-login">
+                        <label for="account"> Account </label>
+                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div class="input-group">
+                            <input type="text" name="account" id="account">
+                        </div>
+                        <small> Error message </small>
+                    </div>
+                    <div class="input-login">
+                        <label for="password"> Password </label>
+                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div class="input-group">
+                            <input type="password" name="password" id="password">
+                            <div class="eye">
+                                <i id="close_password" onclick="PasswordVisualize('password')" class="fa-regular fa-eye-slash"></i>
+                            </div>
+                        </div>
+                        <small> Error message </small>
+                    </div>
+                    <div class="remember">
+                        <label>
+                            <input type="checkbox" value="IsRememberMe" id="rememberMe"> Remember me  
+                        </label>
+                    </div>
+                    <div class="submit-btn">
+                        <input type="submit" value="Sign in" onclick="isRememberMe()">
+                    </div>
+
+                    <div class="change-password-login">
+                        <span><a href="/change-password"> Forgot your password?</a></span>
+                    </div>
+
+                    <div class="signup-login">
+                        <span> Don't have an account? <a href="/signup">Sign up</a></span>
+                    </div>
+                </form>
+
+                <h3> Login with social media</h3>
+                <ul class="list-sci">
+                    <li>
+                        <a href="#" class="fa-brands fa-facebook"></a>
+                    </li>
+                    <li>
+                        <a href="#" class="fa-brands fa-twitter"></a>
+                    </li>
+                    <li>
+                        <a href="#" class="fa-brands fa-instagram"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
