@@ -1,0 +1,38 @@
+{
+    "dependencies": {
+        "@babel/core": "7.15.5",
+        "@babel/node": "7.15.4",
+        "@babel/preset-env": "7.15.6",
+        "body-parser": "^1.20.1",
+        "bootstrap": "^5.3.0-alpha1",
+        "connect-flash": "^0.1.1",
+        "dotenv": "10.0.0",
+        "ejs": "^3.1.8",
+        "express": "^4.18.2",
+        "express-session": "^1.17.3",
+        "express-validator": "^6.14.2",
+        "firebase": "^9.15.0",
+        "firebaseui": "^6.0.2",
+        "multer": "^1.4.5-lts.1",
+        "mysql": "^2.18.1",
+        "mysql2": "^3.0.1",
+        "nodemon": "^2.0.20",
+        "prompt-sync": "^4.2.0",
+        "sharp": "^0.31.3",
+        "sharp-multer": "^0.2.5",
+        "sql": "^0.78.0"
+    },
+    "name": "web",
+    "version": "1.0.0",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon --exec babel-node src/server.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "devDependencies": {
+        "webpack": "^5.75.0"
+    }
+}

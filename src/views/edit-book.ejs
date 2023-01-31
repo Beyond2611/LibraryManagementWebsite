@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> Libib | Library Management Web </title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/main.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+</head>
+
+<body>
+    <div class="user-interface">
+        <div class="navigation-bar">
+            <div class="logo">
+                <a href="#">
+                    <p> Libib </p>
+                </a>
+                <a href="/library"> <i class="fa-solid fa-book-open"></i> </a>
+            </div>
+            <div class="list-option">
+                <ul>
+                    <a href="/library">
+                        <li class="inactive"> <i class="fa-solid fa-book"></i>
+                            <p>Library</p>
+                        </li>
+                    </a>
+                    <a href="/my-collection">
+                        <li class="inactive"> <i class="fa-solid fa-book"></i>
+                            <p> My Collection </p>
+                        </li>
+                    </a>
+                    <%if(session.perm[0].manage_book){%>
+                        <a href="/add-book">
+                            <li class="inactive"><i class="fa-solid fa-circle-plus"></i>
+                                <p>Add books</p>
+                            </li>
+                        </a>
+                        <%}%>
+                            <a href="/setting">
+                                <li class="inactive"> <i class="fa-solid fa-gear"></i>
+                                    <p> Settings</p>
+                                </li>
+                            </a>
+                            <a href="/support">
+                                <li class="inactive"> <i class="fa-brands fa-rocketchat"></i>
+                                    <p> Support</p>
+                                </li>
+                            </a>
+                            <a href="/logout">
+                                <li class="inactive"> <i class="fa-solid fa-right-from-bracket"></i>
+                                    <p>Logout</p>
+                                </li>
+                            </a>
+                </ul>
+            </div>
+            <ul class="list-sci">
+                <li>
+                    <a href="#" class="fa-brands fa-instagram"></a>
+                </li>
+                <li>
+                    <a href="#" class="fa-brands fa-twitter"></a>
+                </li>
+                <li>
+                    <a href="#" class="fa-brands fa-youtube"></a>
+                </li>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="library-tools">
+                <div class="library-header">
+                    <div class="library-title"> Edit Book </div>
+                    <a class="user-profile me-auto" href="/profile/<%=session.user_id%>">
+                        <div class="user-box">
+                            <i class="fa-solid fa-circle-user"></i>
+                            <div class="username">
+                                <%= session.profile[0].account%>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="add-book-site">
+                <form id="form" action="/edit-book/<%= book_id%>" method="POST" enctype="multipart/form-data">
+                    <div class="input-group">
+                        <div class="input-title"><label for="book-img">Image</label> </div>
+                        <div class="input-space"> <input type="file" name="book-img" id="book-img"> </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-title"> <label for="book_title"> Title </label> </div>
+                        <input type="text" name="book_title" id="book_title">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-title"> <label for="author"> Author </label> </div>
+                        <input type="text" name="author" id="author">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-title"> <label for="publisher"> Publisher </label> </div>
+                        <input type="text" name="publisher" id="publisher">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-title"><label for="book_desc"> Description </label> </div>
+                        <textarea name="book_desc" id="book_desc"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <input type="submit" value="Submit" id="submit">
+                        <a href="/book/<%=session.Bookdata[0].book_id%>"> <button>Cancel</button></a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+</body>
+
+</html>
