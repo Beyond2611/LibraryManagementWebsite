@@ -187,7 +187,7 @@ let getBookInfo = async(req, res) => {
     var [Rating] = await pool.execute('select round(avg(point), 1) as Avg from rating where book_id = ?', [req.params.book_id]);
     var Rate = Rating[0].Avg;
     console.log(Rating);
-    return res.render("book.ejs", { session: req.session, BookInfo, Rate});
+    return res.render("book.ejs", { session: req.session, BookInfo, Rate });
 }
 let getSettingPage = async(req, res) => {
     return res.render("setting.ejs", { session: req.session });
@@ -200,15 +200,15 @@ let getEditBookPage = async(req, res) => {
     return res.render("edit-book.ejs", { session: req.session, book_id });
 }
 
-let Delet = async(req, res) =>{
-    await pool.execute('delete from books where book_id = ?', [req.params._id]);
-    res.redirect('/library');
-}
-// let getMyCollectionPage = async(req, res) => {
-//     return res.render("my-collection.ejs");
-// }
+let Delet = async(req, res) => {
+        await pool.execute('delete from books where book_id = ?', [req.params._id]);
+        res.redirect('/library');
+    }
+    // let getMyCollectionPage = async(req, res) => {
+    //     return res.render("my-collection.ejs");
+    // }
 
-let Edit = async(req, res) =>{
+let Edit = async(req, res) => {
     console.log("submitting...");
     var img;
     console.log(req.file.filename);
@@ -216,11 +216,11 @@ let Edit = async(req, res) =>{
     console.log(req.body);
     console.log(img);
     console.log(req.params);
-    await pool.execute('update books set book_title = ?, book_desc = ?, author = ?, publisher = ?, cover = ? where book_id = ? ',[req.body.book_title, req.body.book_desc, req.body.author, req.body.publisher, img, req.params._id] );
+    await pool.execute('update books set book_title = ?, book_desc = ?, author = ?, publisher = ?, cover = ? where book_id = ? ', [req.body.book_title, req.body.book_desc, req.body.author, req.body.publisher, img, req.params._id]);
     res.redirect('/book/' + req.params._id);
 }
 
-let Rate = async(req, res) =>{
+let Rate = async(req, res) => {
     console.log(req.body);
     /*req.session.user_id -> user_ID
     req.params.book_id -> book_id
@@ -261,6 +261,6 @@ module.exports = {
     getEditBookPage,
     Delet,
     Edit,
-    Rate,
+    Rate
     // getMyCollectionPage
 }
