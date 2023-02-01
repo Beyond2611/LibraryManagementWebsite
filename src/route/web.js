@@ -86,7 +86,7 @@ const initWebRoute = (app) => {
     router.get('/support', homeController.getSupportPage);
     router.get('/logout', homeController.Logout);
     router.get('/edit-book/:_id', homeController.getEditBookPage);
-    router.get('/delete/:_id', homeController.Delet)
+    router.get('/delete/:_id', homeController.Delete)
     router.post('/book/:book_id', homeController.Rate);
     // router.get('/my-collection', homeController.getMyCollectionPage);
     //router.post('/add-book', upload.single('image'), homeController.AddBook);

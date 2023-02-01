@@ -196,17 +196,18 @@ let getSupportPage = async(req, res) => {
     return res.render("support.ejs", { session: req.session });
 }
 let getEditBookPage = async(req, res) => {
-    var book_id = req.params._id;
-    return res.render("edit-book.ejs", { session: req.session, book_id });
+    var [BookInfo] = await pool.execute('select * from books where book_id = ?', [req.params._id]);
+    return res.render("edit-book.ejs", { session: req.session, BookInfo });
 }
 
-let Delet = async(req, res) => {
-        await pool.execute('delete from books where book_id = ?', [req.params._id]);
-        res.redirect('/library');
-    }
-    // let getMyCollectionPage = async(req, res) => {
-    //     return res.render("my-collection.ejs");
-    // }
+let Delete = async(req, res) => {
+    await pool.execute('delete from books where book_id = ?', [req.params._id]);
+    res.redirect('/library');
+}
+
+// let getMyCollectionPage = async(req, res) => {
+//     return res.render("my-collection.ejs");
+// }
 
 let Edit = async(req, res) => {
     console.log("submitting...");
@@ -228,7 +229,9 @@ let Rate = async(req, res) => {
     console.log(req.session.user_id);
     console.log(req.params.book_id);
     console.log(req.body.rate);
-    await pool.execute('insert into rating (user_id, book_id, point) values (?,?,?)', [req.session.user_id, req.params.book_id, req.body.rate]);
+    const [User] = await pool.execute('Select * from rating where user_id = ?', [req.session.user_id]);
+    if (User.length) await pool.execute('update rating set point = ? where user_id = ?', [req.body.rate, req.session.user_id]);
+    else await pool.execute('insert into rating (user_id, book_id, point) values (?,?,?)', [req.session.user_id, req.params.book_id, req.body.rate]);
     res.redirect('/book/' + req.params.book_id);
 }
 
@@ -259,7 +262,7 @@ module.exports = {
     getSettingPage,
     getSupportPage,
     getEditBookPage,
-    Delet,
+    Delete,
     Edit,
     Rate
     // getMyCollectionPage
