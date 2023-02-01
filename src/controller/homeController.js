@@ -129,8 +129,11 @@ let Logout = (req, res) => {
 /********* Home Page  ***********/
 
 /********* Library Page **********/
+
+
+// Library Page
 let getLibraryPage = async(req, res) => {
-    var [Books] = await pool.execute('select * from books where available = 1');
+    var [Books] = await pool.execute('select * from books');
     let Booklist = new Set();
     for (var i = 0; i < Books.length; i++) {
         Booklist.add(Books[i].book_title[0].toUpperCase());
@@ -144,16 +147,19 @@ let getLibraryPage = async(req, res) => {
 }
 
 let getSearchedLibraryPage = async(req, res) => {
-    var [Books] = await pool.execute('select * from books where available = 1');
+    var [Books] = await pool.execute('select * from books');
     req.session.Bookdata = Books;
     return res.render('library.ejs', { session: req.session });
 }
+let SearchInLibrary = async(req, res) => {
+    console.log(req.body);
+    res.redirect("/library/" + req.body.search);
+}
+
+// Add Book Page
 let getAddBookPage = async(req, res) => {
     var message = req.flash('message');
     return res.render('add-book.ejs', { session: req.session, message });
-}
-let getProfile = async(req, res) => {
-    return res.render('profile.ejs', { session: req.session });
 }
 let AddBook = async(req, res) => {
     console.log("submiting...");
@@ -176,11 +182,37 @@ let AddBook = async(req, res) => {
     res.redirect('/add-book');
 }
 
-let SearchInLibrary = async(req, res) => {
-    console.log(req.body);
-    res.redirect("/library/" + req.body.search);
+// Profile Page
+let getProfile = async(req, res) => {
+    return res.render('profile.ejs', { session: req.session });
 }
 
+// My collection Page 
+let getMyCollectionPage = async(req, res) => {
+    var [Books] = await pool.execute('select * from books b join borrow br on b.book_id = br.book_id where br.user_id = ? order by b.book_title', [req.session.user_id]);
+    let Booklist = new Set();
+    for (var i = 0; i < Books.length; i++) {
+        Booklist.add(Books[i].book_title[0].toUpperCase());
+    }
+    var SortedTemp = Array.from(Booklist).sort();
+    Booklist = new Set(SortedTemp);
+    console.log(Booklist);
+    req.session.Bookdata = Books;
+    req.session.BookLetters = Booklist;
+    return res.render("my-collection.ejs", { session: req.session });
+}
+
+let SearchInMyCollection = async(req, res) => {
+    console.log(req.body);
+    res.redirect("/my-collection/" + req.body.search);
+}
+let getSearchedMyCollectionPage = async(req, res) => {
+    var [Books] = await pool.execute('select * from books b join borrow br on b.book_id = br.book_id where br.user_id = ? order by b.book_title', [req.session.user_id]);
+    req.session.Bookdata = Books;
+    return res.render('my-collection.ejs', { session: req.session });
+}
+
+// Book-info
 let getBookInfo = async(req, res) => {
     console.log(req.params);
     var [BookInfo] = await pool.execute('select * from books where book_id = ?', [req.params.book_id]);
@@ -188,37 +220,6 @@ let getBookInfo = async(req, res) => {
     var Rate = Rating[0].Avg;
     console.log(Rating);
     return res.render("book.ejs", { session: req.session, BookInfo, Rate });
-}
-let getSettingPage = async(req, res) => {
-    return res.render("setting.ejs", { session: req.session });
-}
-let getSupportPage = async(req, res) => {
-    return res.render("support.ejs", { session: req.session });
-}
-let getEditBookPage = async(req, res) => {
-    var [BookInfo] = await pool.execute('select * from books where book_id = ?', [req.params._id]);
-    return res.render("edit-book.ejs", { session: req.session, BookInfo });
-}
-
-let Delete = async(req, res) => {
-    await pool.execute('delete from books where book_id = ?', [req.params._id]);
-    res.redirect('/library');
-}
-
-// let getMyCollectionPage = async(req, res) => {
-//     return res.render("my-collection.ejs");
-// }
-
-let Edit = async(req, res) => {
-    console.log("submitting...");
-    var img;
-    console.log(req.file.filename);
-    img = "/images/" + req.file.filename;
-    console.log(req.body);
-    console.log(img);
-    console.log(req.params);
-    await pool.execute('update books set book_title = ?, book_desc = ?, author = ?, publisher = ?, cover = ? where book_id = ? ', [req.body.book_title, req.body.book_desc, req.body.author, req.body.publisher, img, req.params._id]);
-    res.redirect('/book/' + req.params._id);
 }
 
 let Rate = async(req, res) => {
@@ -233,6 +234,45 @@ let Rate = async(req, res) => {
     if (User.length) await pool.execute('update rating set point = ? where user_id = ?', [req.body.rate, req.session.user_id]);
     else await pool.execute('insert into rating (user_id, book_id, point) values (?,?,?)', [req.session.user_id, req.params.book_id, req.body.rate]);
     res.redirect('/book/' + req.params.book_id);
+}
+
+// Setting Page
+let getSettingPage = async(req, res) => {
+    return res.render("setting.ejs", { session: req.session });
+}
+
+// Support Page
+let getSupportPage = async(req, res) => {
+    return res.render("support.ejs", { session: req.session });
+}
+
+// Edit Book Page
+let getEditBookPage = async(req, res) => {
+    var [BookInfo] = await pool.execute('select * from books where book_id = ?', [req.params._id]);
+    return res.render("edit-book.ejs", { session: req.session, BookInfo });
+}
+
+let Delete = async(req, res) => {
+    await pool.execute('delete from books where book_id = ?', [req.params._id]);
+    res.redirect('/library');
+}
+
+let Edit = async(req, res) => {
+    console.log("submitting...");
+    var img;
+    console.log(req.file.filename);
+    img = "/images/" + req.file.filename;
+    console.log(req.body);
+    console.log(img);
+    console.log(req.params);
+    await pool.execute('update books set book_title = ?, book_desc = ?, author = ?, publisher = ?, cover = ? where book_id = ? ', [req.body.book_title, req.body.book_desc, req.body.author, req.body.publisher, img, req.params._id]);
+    res.redirect('/book/' + req.params._id);
+}
+
+
+// Book-Ranking Page
+let getBookRankingPage = async(req, res) => {
+    return res.render("book-ranking.ejs", { session: req.session });
 }
 
 /********* Library Page **********/
@@ -258,10 +298,14 @@ module.exports = {
     AddBook,
     getSearchedLibraryPage,
     SearchInLibrary,
+    SearchInMyCollection,
     getBookInfo,
     getSettingPage,
     getSupportPage,
     getEditBookPage,
+    getMyCollectionPage,
+    getBookRankingPage,
+    getSearchedMyCollectionPage,
     Delete,
     Edit,
     Rate

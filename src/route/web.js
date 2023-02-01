@@ -62,13 +62,14 @@ const initWebRoute = (app) => {
     router.get('/home', homeController.getHomePage);
     /****** Library Page ******/
     router.get('/library', homeController.getLibraryPage);
+    router.post('/library', homeController.SearchInLibrary);
     router.get('/add-book', homeController.getAddBookPage);
     router.get('/profile/:user_id', homeController.getProfile);
     router.get("/library/:key", async(req, res) => {
         var key = req.params.key;
         if (key == '') res.redirect('/library');
         console.log(key);
-        var [Books] = await pool.execute('select * from books where available = 1 and book_title like ?', ['%' + key + '%']);
+        var [Books] = await pool.execute('select * from books where book_title like ?', ['%' + key + '%']);
         var Booklist = new Set();
         for (var i = 0; i < Books.length; i++) {
             Booklist.add(Books[i].book_title[0]);
@@ -80,16 +81,33 @@ const initWebRoute = (app) => {
         req.session.BookLetters = Booklist;
         return res.render('library.ejs', { session: req.session });
     });
-    router.post('/library', homeController.SearchInLibrary);
+    router.get('/my-collection', homeController.getMyCollectionPage);
+    router.post('/my-collection', homeController.SearchInMyCollection);
+    router.get("/my-collection/:key", async(req, res) => {
+        var key = req.params.key;
+        if (key == '') res.redirect('/my-collection');
+        console.log(key);
+        var [Books] = await pool.execute('select * from books b join borrow br on b.book_id = br.book_id where b.book_title like ? and br.user_id = ? ', ['%' + key + '%', req.session.user_id]);
+        var Booklist = new Set();
+        for (var i = 0; i < Books.length; i++) {
+            Booklist.add(Books[i].book_title[0]);
+        }
+        var SortedTemp = Array.from(Booklist).sort();
+        Booklist = new Set(SortedTemp);
+        console.log(Booklist);
+        req.session.Bookdata = Books;
+        req.session.BookLetters = Booklist;
+        return res.render('my-collection.ejs', { session: req.session });
+    });
     router.get('/book/:book_id', homeController.getBookInfo);
+    router.post('/book/:book_id', homeController.Rate);
     router.get('/setting', homeController.getSettingPage);
     router.get('/support', homeController.getSupportPage);
+    router.get('/book-ranking', homeController.getBookRankingPage);
     router.get('/logout', homeController.Logout);
     router.get('/edit-book/:_id', homeController.getEditBookPage);
     router.get('/delete/:_id', homeController.Delete)
-    router.post('/book/:book_id', homeController.Rate);
-    // router.get('/my-collection', homeController.getMyCollectionPage);
-    //router.post('/add-book', upload.single('image'), homeController.AddBook);
+        //router.post('/add-book', upload.single('image'), homeController.AddBook);
     return app.use('/', router);
 
 }

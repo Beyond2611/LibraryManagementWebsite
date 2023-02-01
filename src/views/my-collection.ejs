@@ -15,10 +15,10 @@
     <div class="user-interface">
         <div class="navigation-bar">
             <div class="logo">
-                <a href="/library">
+                <a href="/home">
                     <p> Libib </p>
                 </a>
-                <a href="/library"> <i class="fa-solid fa-book-open"></i> </a>
+                <a href="/home"> <i class="fa-solid fa-book-open"></i> </a>
             </div>
             <div class="list-option">
                 <ul>
@@ -39,6 +39,12 @@
                             </li>
                         </a>
                         <%}%>
+                            <a href="/book-ranking">
+                                <li class="inactive">
+                                    <i class="fa-solid fa-trophy"></i>
+                                    <p> Book Ranking</p>
+                                </li>
+                            </a>
                             <a href="/setting">
                                 <li class="inactive"> <i class="fa-solid fa-gear"></i>
                                     <p> Settings</p>
@@ -71,7 +77,7 @@
         <div class="container">
             <div class="library-tools">
                 <div class="library-header">
-                    <form class="search-panel" action="/library" method="POST">
+                    <form class="search-panel" action="/my-collection" method="POST">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input type="search" placeholder="Start Searching..." name="search" id="search">
                     </form>
@@ -98,7 +104,7 @@
                     </div>
                     <div class="list-book">
                         <% for(var i = 0; i < session.Bookdata.length; i++){%>
-                            <% if(session.Bookdata[i].book_title[0] == item){ %>
+                            <% if(session.Bookdata[i].book_title[0].toUpperCase() == item){ %>
                                 <a href="/book/<%=session.Bookdata[i].book_id%>" class="item-cover-book">
                                             <img src="<%=session.Bookdata[i].cover%>" data-join-id="104229468">
                                             <div class="book-title"> <%= session.Bookdata[i].book_title %> </div>

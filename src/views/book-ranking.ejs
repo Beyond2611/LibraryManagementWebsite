@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title> Libib | Settings </title>
+    <title> Libib | Support </title>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,13 +39,13 @@
                         </a>
                         <%}%>
                             <a href="/book-ranking">
-                                <li class="inactive">
+                                <li class="active">
                                     <i class="fa-solid fa-trophy"></i>
                                     <p> Book Ranking</p>
                                 </li>
                             </a>
                             <a href="/setting">
-                                <li class="active"> <i class="fa-solid fa-gear"></i>
+                                <li class="inactive"> <i class="fa-solid fa-gear"></i>
                                     <p> Settings</p>
                                 </li>
                             </a>
@@ -76,7 +76,7 @@
         <div class="container">
             <div class="library-tools">
                 <div class="library-header">
-                    <div class="library-title"> Setting </div>
+                    <div class="library-title"> Book Ranking </div>
                     <a class="user-profile me-auto" href="/profile/<%=session.user_id%>">
                         <div class="user-box">
                             <i class="fa-solid fa-circle-user"></i>
@@ -89,7 +89,6 @@
             </div>
 
         </div>
-    </div>
 </body>
 
 </html>

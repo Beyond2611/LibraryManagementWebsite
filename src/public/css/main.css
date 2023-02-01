@@ -179,7 +179,7 @@ input[type="file"]::-webkit-file-upload-button {
 }
 
 .navigation-bar ul {
-    margin-bottom: 270px;
+    margin-bottom: 220px;
 }
 
 
@@ -484,7 +484,7 @@ input[type="file"]::-webkit-file-upload-button {
 /******* Add-book , Edit-book CSS *******/
 
 .add-book-site {
-    margin-top: 15px;
+    margin-top: 25px;
     display: grid;
 }
 
