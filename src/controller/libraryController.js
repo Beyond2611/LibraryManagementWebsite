@@ -13,7 +13,7 @@ let getLibraryPage = async(req, res) => {
     console.log(Booklist);
     req.session.Bookdata = Books;
     req.session.BookLetters = Booklist;
-    req.session.page = "library";
+    req.session.page = "Library";
     return res.render('library.ejs', { session: req.session });
 }
 
@@ -38,7 +38,7 @@ let getMyCollectionPage = async(req, res) => {
     console.log(Booklist);
     req.session.Bookdata = Books;
     req.session.BookLetters = Booklist;
-    req.session.page = "my-collection";
+    req.session.page = "My collection";
     return res.render("my-collection.ejs", { session: req.session });
 }
 

@@ -7,7 +7,7 @@
     </div>  
         <ul class="list-option" id="list-option">
             <a href="/library">
-                <% if( session.page=="library"){ %>
+                <% if( session.page=="Library"){ %>
                     <li class="active">
                 <% }else { %>
                    <li class="inactive">
@@ -17,7 +17,7 @@
                     </li>
             </a>
             <a href="/my-collection">
-                <% if(session.page=="my-collection"){ %>
+                <% if(session.page=="My collection"){ %>
                     <li class="active">
                 <% }else { %>
                     <li class="inactive">
@@ -28,7 +28,7 @@
             </a>
             <%if(session.perm[0].manage_book){%>
                 <a href="/add-book">
-                    <% if(session.page=="add-book"){ %>
+                    <% if(session.page=="Add book"){ %>
                         <li class="active">
                      <% }else { %>
                         <li class="inactive">
@@ -39,7 +39,7 @@
                 </a>
                 <%}%>
                     <a href="/leaderboard">
-                        <% if(session.page=="leaderboard"){ %>
+                        <% if(session.page=="Leaderboard"){ %>
                             <li class="active">
                         <% }else { %>
                            <li class="inactive">
@@ -49,7 +49,7 @@
                             </li>
                     </a>
                     <a href="/setting">
-                        <% if(session.page=="setting"){ %>
+                        <% if(session.page=="Setting"){ %>
                             <li class="active">
                         <% }else { %>
                            <li class="inactive">
@@ -59,7 +59,7 @@
                             </li>
                     </a>
                     <a href="/support">
-                        <% if(session.page=="support"){ %>
+                        <% if(session.page=="Support"){ %>
                             <li class="active">
                         <% }else { %>
                            <li class="inactive">

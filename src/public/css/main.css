@@ -804,3 +804,59 @@ textarea {
 
 
 /******* Book showcase *******/
+
+
+/******* Leaderboard ******/
+
+.leaderboard {
+    width: 80%;
+    border: 1px solid rgb(20, 20, 20);
+    margin-left: 10%;
+}
+
+.leaderboard-header {
+    border: 2px solid rgb(235, 13, 13);
+    padding: 20px;
+    text-align: center;
+}
+
+.leaderboard-list {
+    display: flex;
+    height: 105px;
+}
+
+.list-top {
+    flex: 1;
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-img {
+    flex: 1;
+    border: 1px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-img img {
+    width: 80px;
+}
+
+.list-info {
+    flex: 12;
+    border: 1px solid red;
+}
+
+.list-rate {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
+}
+
+
+/******* Leaderboard ******/
