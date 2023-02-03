@@ -1,0 +1,20 @@
+<div class="book-show">
+    <% for(var item of session.BookLetters) { %>
+        <div class="first-letter" id="<%= item %>">
+            <%= item %>
+        </div>
+        <div class="list-book">
+            <% for(var i = 0; i < session.Bookdata.length; i++){ %>
+                <% if(session.Bookdata[i].book_title[0].toUpperCase() == item){ %>
+                    <a href="/book/<%=session.Bookdata[i].book_id%>" class="item-cover-book">
+                        <img src="<%=session.Bookdata[i].cover%>" data-join-id="104229468">
+                        <div class="book-title"> <%= session.Bookdata[i].book_title %> </div>
+                        <div class="book-author"> <%= session.Bookdata[i].author %></div>
+        
+            </a>
+                    <% } %>
+                        <% } %>
+
+        </div>
+        <% } %>
+</div>

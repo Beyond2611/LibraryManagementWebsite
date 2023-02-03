@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> Libib | Library Management Web </title>
+    <%- include('../templates/library-stylesheet.ejs') %>
+</head>
+
+<body>
+    <div class="user-interface">
+        <%- include('../templates/nav-bar.ejs') %>
+            <div class="container">
+                <div class="tool-bar">
+                    <ul class="tools">
+                        <% if(session.perm[0].manage_book){%>
+                            <li class="tool">
+                                <a href="/edit-book/<%= BookInfo[0].book_id %>"> <i class="fa-solid fa-pencil"></i> Edit </a>
+                            </li>
+                            <li class="tool">
+                                <a onclick="Overlay('delete')"> <i class="fa-solid fa-trash"></i> Delete </a>
+                            </li>
+                            <% } %>
+                    </ul>
+                    <a href="/library" class="close-btn">
+                        <i class="fa-regular fa-circle-xmark"></i>
+                    </a>
+                </div>
+                <div class="book-info">
+                    <div class="book-cover-image">
+                        <img src="<%=BookInfo[0].cover %>" width="60" height="80">
+                    </div>
+                    <div class="book-cover-info">
+                        <div class="book-cover-title">
+                            <%= BookInfo[0].book_title %>
+                        </div>
+                        <div class="book-cover-author"> <strong> Author: </strong>
+                            <%= BookInfo[0].author %>
+                        </div>
+                        <div class="book-cover-date-added"> <strong>Publisher: </strong> Publisher</div>
+                        <div class="book-cover-date-added"> <strong>Added: </strong> Date</div>
+                        <div class="book-cover-status"> <strong>Status: </strong> Available </div>
+                        <ul class="book-cover-etc">
+                            <li>
+                                <div class="head-tag">
+                                    <a href="#"> Description</a>
+                                </div>
+                                <p>
+                                    <%= BookInfo[0].book_desc %>
+                                </p>
+                            </li>
+                            <li>
+                                <div class="head-tag">
+                                    <a href="#"> Rating </a>
+                                </div>
+                                <div class="book-cover-rating">
+                                    <%= Rate %> / 5 <i class="fa-solid fa-star"></i></div>
+                            </li>
+                            <li>
+                                <div class="book-cover-buttons">
+                                    <button> Borrow </button>
+                                    <button onclick="Overlay('rating')"> Rate </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="overlay">
+        <div class="overlay-delete">
+            <h1> Delete this book ? </h1>
+            <button onclick="Delete(<%=BookInfo[0].book_id%>)"> Delete </button>
+            <button onclick="Overlay('delete')"> Cancel</button>
+        </div>
+        <div class="overlay-rating">
+            <h1> Rate </h1>
+            <form class="rate" action="/book/<%=BookInfo[0].book_id%>" method="POST">
+                <input type="radio" id="star5" name="rate" value="5" required />
+                <label for="star5" title="text"></label>
+                <input type="radio" id="star4" name="rate" value="4" required/>
+                <label for="star4" title="text"></label>
+                <input type="radio" id="star3" name="rate" value="3" required/>
+                <label for="star3" title="text"></label>
+                <input type="radio" id="star2" name="rate" value="2" required/>
+                <label for="star2" title="text"></label>
+                <input type="radio" id="star1" name="rate" value="1" required/>
+                <label for="star1" title="text"></label>
+                <div class="comment">
+                    <p>Comment</p>
+                    <textarea></textarea>
+                </div>
+                <input type="submit" value="Submit">
+            </form>
+            <button onclick="Overlay('rating')"> Cancel</button>
+        </div>
+    </div>
+</body>
+
+</html>

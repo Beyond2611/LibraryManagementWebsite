@@ -1,0 +1,88 @@
+<div class="navigation-bar">
+    <div class="logo">
+        <a href="/home">
+            <p> Libib </p>
+        </a>
+        <a href="/home"> <i class="fa-solid fa-book-open"></i> </a>
+    </div>  
+        <ul class="list-option" id="list-option">
+            <a href="/library">
+                <% if( session.page=="library"){ %>
+                    <li class="active">
+                <% }else { %>
+                   <li class="inactive">
+                <% }%> 
+                    <i class="fa-solid fa-book"></i>
+                    <p>Library</p>
+                    </li>
+            </a>
+            <a href="/my-collection">
+                <% if(session.page=="my-collection"){ %>
+                    <li class="active">
+                <% }else { %>
+                    <li class="inactive">
+                 <% }%> 
+                    <i class="fa-solid fa-book"></i>
+                    <p> My Collection </p>
+                    </li>
+            </a>
+            <%if(session.perm[0].manage_book){%>
+                <a href="/add-book">
+                    <% if(session.page=="add-book"){ %>
+                        <li class="active">
+                     <% }else { %>
+                        <li class="inactive">
+                     <% }%> 
+                    <i class="fa-solid fa-circle-plus"></i>
+                        <p>Add books</p>
+                    </li>
+                </a>
+                <%}%>
+                    <a href="/leaderboard">
+                        <% if(session.page=="leaderboard"){ %>
+                            <li class="active">
+                        <% }else { %>
+                           <li class="inactive">
+                        <% }%> 
+                            <i class="fa-solid fa-trophy"></i>
+                            <p> Leaderboard</p>
+                            </li>
+                    </a>
+                    <a href="/setting">
+                        <% if(session.page=="setting"){ %>
+                            <li class="active">
+                        <% }else { %>
+                           <li class="inactive">
+                        <% }%> 
+                            <i class="fa-solid fa-gear"></i>
+                            <p> Settings</p>
+                            </li>
+                    </a>
+                    <a href="/support">
+                        <% if(session.page=="support"){ %>
+                            <li class="active">
+                        <% }else { %>
+                           <li class="inactive">
+                        <% }%> 
+                            <i class="fa-brands fa-rocketchat"></i>
+                            <p> Support</p>
+                            </li>
+                    </a>
+                    <a href="/logout">
+                        <li class="inactive"> <i class="fa-solid fa-right-from-bracket"></i>
+                            <p>Logout</p>
+                        </li>
+                    </a>
+        </ul>
+    <ul class="list-sci">
+        <li>
+            <a href="#" class="fa-brands fa-instagram"></a>
+        </li>
+        <li>
+            <a href="#" class="fa-brands fa-twitter"></a>
+        </li>
+        <li>
+            <a href="#" class="fa-brands fa-youtube"></a>
+        </li>
+    </ul>
+</div>

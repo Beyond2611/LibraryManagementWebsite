@@ -1,0 +1,22 @@
+<div class="library-tools">
+    <div class="library-header">
+        <form class="search-panel" action="/library" method="POST">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="search" placeholder="Start Searching..." name="search" id="search">
+        </form>
+        <a class="user-profile me-auto" href="/profile/<%=session.user_id%>">
+            <div class="user-box">
+                <i class="fa-solid fa-circle-user"></i>
+                <div class="username">
+                    <%= session.profile[0].account%>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="az-filter">
+        <% for(var item of session.BookLetters) { %>
+            <span href="#<%= item %>" onclick="smoothScroll('<%= item %>')"> <%= item %> </span>
+            <% } %>
+
+    </div>
+</div>

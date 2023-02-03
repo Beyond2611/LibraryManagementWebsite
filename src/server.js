@@ -1,27 +1,17 @@
 import express from "express";
-import configViewEngine from "./configs/viewEngine";
 import initWebRoute from "./route/web";
-import homeController from "./controller/homeController";
+import libraryController from './controller/libraryController';
+import bookController from './controller/bookController';
 import path from "path";
+const flash = require('connect-flash')
 const multer = require('multer')
 const sharpMulter = require('sharp-multer');
-require('dotenv').config();
 var session = require("express-session");
-const flash = require('connect-flash')
-
 const app = express();
 const port = process.env.PORT || 3000;
-app.use(express.static('public'));
-app.use(flash());
+const fs = require('fs')
 var bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use(session({
-    secret: 'keyboard-cat',
-    resave: 'true',
-    saveUninitialized: 'false',
-    //cookie: { secure: true, maxAge: 60000 },
-}));
+require('dotenv').config();
 const storage = sharpMulter({
     destination: function(req, file, cb) {
         cb(null, __dirname + '/public/images/');
@@ -44,6 +34,31 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
+app.use(express.static('./src/public'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.set("view engine", "ejs");
+
+fs.readdir('./src/views', { withFileTypes: true }, (error, files) => {
+    if (error) throw error;
+    const directories = files
+        .filter((item) => item.isDirectory())
+        .map((item) => __dirname + "/views/" + item.name);
+    app.set("views", directories);
+});
+app.use(session({
+    secret: 'keyboard-cat',
+    resave: 'true',
+    saveUninitialized: 'false',
+    //cookie: { secure: true, maxAge: 60000 },
+}));
+app.use(function(req, res, next) {
+    res.locals.session = req.session;
+    next();
+});
+app.use(flash());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 function requiresLogin(req, res, next) {
     if (req.session && req.session.userId) {
         return next();
@@ -53,15 +68,10 @@ function requiresLogin(req, res, next) {
         return next(err);
     }
 }
-app.use(function(req, res, next) {
-    res.locals.session = req.session;
-    next();
-});
 
-app.post('/edit-book/:_id', upload.single('book-img'), homeController.Edit);
+app.post('/edit-book/:_id', upload.single('book-img'), bookController.Edit);
 
-app.post('/add-book', upload.single('image'), homeController.AddBook);
-configViewEngine(app);
+app.post('/add-book', upload.single('image'), libraryController.AddBook);
 initWebRoute(app);
 
 app.listen(port, function(err) {

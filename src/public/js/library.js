@@ -67,7 +67,6 @@ function Overlay(input) {
     overlay_mode = 1 - overlay_mode;
 }
 
-function Delet(_id)
-{
+function Delete(_id) {
     window.location.replace("/delete/" + _id);
 }

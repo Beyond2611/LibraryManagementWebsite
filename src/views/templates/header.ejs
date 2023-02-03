@@ -1,0 +1,13 @@
+<div class="library-tools">
+    <div class="library-header">
+        <div class="library-title"> <%= session.page %> </div>
+        <a class="user-profile me-auto" href="/profile/<%=session.user_id%>">
+            <div class="user-box">
+                <i class="fa-solid fa-circle-user"></i>
+                <div class="username">
+                    <%= session.profile[0].account%>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
