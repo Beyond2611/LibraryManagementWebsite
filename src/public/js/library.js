@@ -1,11 +1,11 @@
 let overlay_mode = 0;
 
 function currentYPosition() {
-    if (self.pageYOffset) return self.pageYOffset;
-    if (document.documentElement && document.documentElement.scrollTop)
-        return document.documentElement.scrollTop;
-    if (document.body.scrollTop) return document.body.scrollTop;
-    return 0;
+    // if (self.pageYOffset) return self.pageYOffset;
+    // if (document.documentElement && document.documentElement.scrollTop)
+    //     return document.documentElement.scrollTop;
+    // if (document.body.scrollTop) return document.body.scrollTop;
+    return 30;
 }
 
 function elmYPosition(eID) {

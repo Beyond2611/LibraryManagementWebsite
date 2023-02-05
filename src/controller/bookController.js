@@ -6,7 +6,7 @@ const books = require('../public/js/book');
 let getBookInfo = async(req, res) => {
     console.log(req.params);
     var [BookInfo] = await pool.execute('select * from books where book_id = ?', [req.params.book_id]);
-    var [Rating] = await pool.execute('select round(avg(point), 1) as Avg from rating where book_id = ?', [req.params.book_id]);
+    var [Rating] = await pool.execute('select COALESCE(round(avg(point), 1),0) as Avg from rating where book_id = ?', [req.params.book_id]);
     var Rate = Rating[0].Avg;
     console.log(Rating);
     return res.render("book.ejs", { session: req.session, BookInfo, Rate });
