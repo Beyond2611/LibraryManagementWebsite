@@ -8,5 +8,4 @@ router.get('/book/:book_id', bookController.getBookInfo);
 router.post('/book/:book_id', bookController.Rate);
 router.get('/edit-book/:_id', bookController.getEditBookPage);
 router.get('/delete/:_id', bookController.Delete);
-
 module.exports = router;

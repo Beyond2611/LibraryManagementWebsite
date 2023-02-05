@@ -6,7 +6,7 @@ const books = require('../public/js/book');
 let getBookInfo = async(req, res) => {
     console.log(req.params);
     var [BookInfo] = await pool.execute('select * from books where book_id = ?', [req.params.book_id]);
-    var [Rating] = await pool.execute('select COALESCE(round(avg(point), 1),0) as Avg from rating where book_id = ?', [req.params.book_id]);
+    var [Rating] = await pool.execute('select COALESCE(round(AVG(point), 1),0) as Avg from rating where book_id = ?', [req.params.book_id]);
     var Rate = Rating[0].Avg;
     console.log(Rating);
     return res.render("book.ejs", { session: req.session, BookInfo, Rate });
@@ -21,7 +21,7 @@ let Rate = async(req, res) => {
     console.log(req.session.user_id);
     console.log(req.params.book_id);
     console.log(req.body.rate);
-    const [User] = await pool.execute('Select * from rating where user_id = ?', [req.session.user_id]);
+    const [User] = await pool.execute('Select * from rating where user_id = ? and book_id = ?', [req.session.user_id, req.params.book_id]);
     if (User.length) await pool.execute('update rating set point = ? where user_id = ?', [req.body.rate, req.session.user_id]);
     else await pool.execute('insert into rating (user_id, book_id, point) values (?,?,?)', [req.session.user_id, req.params.book_id, req.body.rate]);
     res.redirect('/book/' + req.params.book_id);
