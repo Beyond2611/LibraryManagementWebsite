@@ -13,35 +13,35 @@
                 <%- include('../templates/header.ejs') %>
                     <div class="leaderboard">
                         <div class="leaderboard-header"> <i class="fa-solid fa-trophy"></i> High Rating</div>
-                        <div class="leaderboard-list">
-                            <div class="list-top"> 1 </div>
-                            <div class="list-img">
-                                <img src="/images/96dd3c11bd366e6d8f98729b6247984a.jpg">
-                            </div>
-                            <div class="list-info">
-                                <div class="list-info-title"> Title </div>
-                                <div class="list-info-author">Author</div>
-                            </div>
-                            <div class="list-rate">
-                                <p> 5.0</p>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                        </div>
-                        <div class="leaderboard-list">
-                            <div class="list-top"> 1 </div>
-                            <div class="list-img">
-                                <img src="/images/image-not-available.jpg">
-                            </div>
-                            <div class="list-info">
-                                <div class="list-info-title"> Title </div>
-                                <div class="list-info-author">Author</div>
-                            </div>
-                            <div class="list-rate">
-                                <p> 5.0</p>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                        </div>
-
+                        <% for(var i = 0; i < session.bookInfo.length; i++){ %>
+                            <a class="leaderboard-list" href="/book/<%=session.bookInfo[i].book_id%>">
+                                <div class="list-top">
+                                    <%= i + 1 %>
+                                </div>
+                                <div class="list-img">
+                                    <img src="<%= session.bookInfo[i].cover %>">
+                                </div>
+                                <div class="list-info">
+                                    <div class="list-info-title">
+                                        <%= session.bookInfo[i].book_title %>
+                                    </div>
+                                    <div class="list-info-author">
+                                        <%= session.bookInfo[i].author %>
+                                    </div>
+                                </div>
+                                <div class="list-rate">
+                                    <p>
+                                        <%= session.bookInfo[i].point %>
+                                    </p>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                            </a>
+                            <% } %>
+                                <% if(session.num_book != session.total){ %>
+                                    <a href="/viewMore">
+                                        <button> View more</button>
+                                    </a>
+                                    <% } %>
                     </div>
             </div>
 </body>

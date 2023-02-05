@@ -1,6 +1,7 @@
 import pool from '../configs/connectDB';
 const { check, validationResult } = require('express-validator');
 const books = require('../public/js/book');
+
 // Library Page
 let getLibraryPage = async(req, res) => {
     var [Books] = await pool.execute('select * from books');
@@ -12,6 +13,7 @@ let getLibraryPage = async(req, res) => {
     Booklist = new Set(SortedTemp);
     console.log(Booklist);
     req.session.Bookdata = Books;
+    req.session.total = Books.length;
     req.session.BookLetters = Booklist;
     req.session.page = "Library";
     return res.render('library.ejs', { session: req.session });
@@ -23,10 +25,11 @@ let getSearchedLibraryPage = async(req, res) => {
     return res.render('library.ejs', { session: req.session });
 }
 let SearchInLibrary = async(req, res) => {
-        console.log(req.body);
-        res.redirect("/library/" + req.body.search);
-    }
-    // My collection Page 
+    console.log(req.body);
+    res.redirect("/library/" + req.body.search);
+}
+
+// My collection Page 
 let getMyCollectionPage = async(req, res) => {
     var [Books] = await pool.execute('select * from books b join borrow br on b.book_id = br.book_id where br.user_id = ? order by b.book_title', [req.session.user_id]);
     let Booklist = new Set();
@@ -47,11 +50,12 @@ let SearchInMyCollection = async(req, res) => {
     res.redirect("/my-collection/" + req.body.search);
 }
 let getSearchedMyCollectionPage = async(req, res) => {
-        var [Books] = await pool.execute('select * from books b join borrow br on b.book_id = br.book_id where br.user_id = ? order by b.book_title', [req.session.user_id]);
-        req.session.Bookdata = Books;
-        return res.render('my-collection.ejs', { session: req.session });
-    }
-    // Profile Page 
+    var [Books] = await pool.execute('select * from books b join borrow br on b.book_id = br.book_id where br.user_id = ? order by b.book_title', [req.session.user_id]);
+    req.session.Bookdata = Books;
+    return res.render('my-collection.ejs', { session: req.session });
+}
+
+// Profile Page 
 let getProfile = async(req, res) => {
     req.session.page = "Profile";
     return res.render('profile.ejs', { session: req.session });
@@ -97,7 +101,14 @@ let getSupportPage = async(req, res) => {
 }
 let getLeaderBoardPage = async(req, res) => {
     req.session.page = "Leaderboard";
+    var [bookInfo] = await pool.execute('Select b.book_id , b.book_title , b.author , b.cover , COALESCE(ROUND(AVG(r.point),1),0) as point from books b left join rating r on b.book_id = r.book_id group by b.book_id order by AVG(r.point) DESC , b.book_title limit ? ', [req.params.top]);
+    req.session.num_book = req.params.top;
+    req.session.bookInfo = bookInfo;
     return res.render("leaderboard.ejs", { session: req.session });
+}
+let viewMore = async(req, res) => {
+    req.session.num_book = Math.min(10 + req.session.num_book, req.session.total);
+    return res.redirect('/leaderboard/' + req.session.num_book);
 }
 let Logout = (req, res) => {
     req.session.destroy();
@@ -117,5 +128,6 @@ module.exports = {
     getSupportPage,
     getLeaderBoardPage,
     getSearchedMyCollectionPage,
+    viewMore,
     Logout
 }

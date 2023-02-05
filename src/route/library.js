@@ -45,7 +45,8 @@ router.get("/my-collection/:key", async(req, res) => {
 });
 router.get('/setting', libraryController.getSettingPage);
 router.get('/support', libraryController.getSupportPage);
-router.get('/leaderboard', libraryController.getLeaderBoardPage);
+router.get('/leaderboard/:top', libraryController.getLeaderBoardPage);
+router.get('/viewMore', libraryController.viewMore);
 router.get('/logout', libraryController.Logout);
 
 module.exports = router;

@@ -22,6 +22,7 @@ function elmYPosition(eID) {
 function smoothScroll(eID) {
     var startY = currentYPosition();
     var stopY = elmYPosition(eID);
+    console.log(startY + ' ' + stopY);
     var distance = stopY > startY ? stopY - startY : startY - stopY;
     if (distance < 100) {
         scrollTo(0, stopY - 20);
