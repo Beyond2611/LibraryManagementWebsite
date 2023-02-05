@@ -30,7 +30,6 @@ let Rate = async(req, res) => {
 // Edit Book Page
 let getEditBookPage = async(req, res) => {
     var [BookInfo] = await pool.execute('select * from books where book_id = ?', [req.params._id]);
-    req.session.page = "Edit Book";
     return res.render("edit-book.ejs", { session: req.session, BookInfo });
 }
 
