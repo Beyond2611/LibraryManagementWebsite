@@ -2,19 +2,43 @@
 <html lang="en">
 
 <head>
-    <title> Libib | Settings </title>
+    <title>Libib | Settings</title>
     <%- include('../templates/library-stylesheet.ejs') %>
+
 </head>
 
 <body>
-    <div class="user-interface">
-        <% const page="setting" %>
-            <%- include('../templates/nav-bar.ejs') %>
-                <div class="container">
-                    <%- include('../templates/header.ejs') %>
-
-                </div>
-    </div>
+    <%- include('../templates/success.ejs') %>
+        <div class="user-interface">
+            <% const page="setting" %>
+                <%- include('../templates/nav-bar.ejs') %>
+                    <div class="container">
+                        <%- include('../templates/header.ejs') %>
+                            <ul class="accordion">
+                                <li class="accordion-item">
+                                    <div class="accordion-item-header">Display Mode</div>
+                                    <div class="accordion-item-body">
+                                        <form class="setting-form" method="POST" action="/change-theme">
+                                            <div class="select-theme">
+                                                <select name="theme">
+                                                <% if(session.theme == "" || session.theme == "royal") { %>
+                                               <option name="royal" value="royal" selected>Royal</option>
+                                               <option name="dark" value="dark">Dark</option>
+                                               <% } else { %>
+                                               <option name="royal" value="royal">Royal</option>
+                                               <option name="dark" value="dark" selected>Dark</option>
+                                               <% } %>
+                                           </select>
+                                            </div>
+                                            <input type="submit" value="Change theme" id="submit-theme" />
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                    </div>
+        </div>
 </body>
+
+<%- include('../templates/change-theme.ejs') %>
 
 </html>

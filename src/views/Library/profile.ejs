@@ -7,12 +7,33 @@
 </head>
 
 <body>
-    <div class="user-interface">
-        <%- include('../templates/nav-bar.ejs') %>
-            <div class="container">
-                <%- include('../templates/header.ejs') %>
-
-            </div>
+    <%- include('../templates/success.ejs') %>
+        <div class="user-interface">
+            <%- include('../templates/nav-bar.ejs') %>
+                <div class="container">
+                    <%- include('../templates/header.ejs') %>
+                        <ul class="accordion">
+                            <li class="accordion-item">
+                                <div class="accordion-item-header">
+                                    Change Email
+                                </div>
+                                <div class="accordion-item-body">
+                                    <form method="POST" action="/change-email" class="setting-form">
+                                        <div class="change-email">
+                                            <input type="email" name="email" id="email" required>
+                                        </div>
+                                        <input type="submit" value="Change email">
+                                    </form>
+                                    <% if(session.error_email){ %>
+                                        <p>
+                                            <%= session.error_email %>
+                                        </p>
+                                        <% } %>
+                                </div>
+                            </li>
+                        </ul>
+                </div>
 </body>
+<%- include('../templates/change-theme.ejs') %>
 
 </html>

@@ -7,14 +7,16 @@
 </head>
 
 <body>
-    <div class="user-interface">
-        <%- include('../templates/nav-bar.ejs') %>
+    <%- include('../templates/success.ejs') %>
+        <div class="user-interface">
+            <%- include('../templates/nav-bar.ejs') %>
 
-            <div class="container">
-                <%- include('../templates/header-search.ejs') %>
-                    <%- include('../templates/book-show.ejs') %>
-            </div>
-    </div>
+                <div class="container">
+                    <%- include('../templates/header-search.ejs') %>
+                        <%- include('../templates/book-show.ejs') %>
+                </div>
+        </div>
 </body>
+<%- include('../templates/change-theme.ejs') %>
 
 </html>

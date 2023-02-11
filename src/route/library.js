@@ -2,6 +2,7 @@ import express from "express";
 import libraryController from '../controller/libraryController';
 import multer from "multer";
 import pool from "../configs/connectDB";
+import lib from "@babel/preset-env";
 const { check } = require('express-validator');
 let router = express.Router();
 
@@ -47,6 +48,8 @@ router.get('/setting', libraryController.getSettingPage);
 router.get('/support', libraryController.getSupportPage);
 router.get('/leaderboard/:top', libraryController.getLeaderBoardPage);
 router.get('/viewMore', libraryController.viewMore);
+router.post('/change-theme', libraryController.changeTheme);
+router.post('/change-email', libraryController.changeEmail);
 router.get('/logout', libraryController.Logout);
 
 module.exports = router;

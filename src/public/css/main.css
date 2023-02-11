@@ -67,9 +67,104 @@ html {
     overflow-y: overlay;
 }
 
-.body {
+body {
     width: 100%;
     height: 100vh;
+    background-color: black;
+}
+
+body[data_theme='royal'] {
+    --scrollbar-color: #c00342;
+    --text-color-1: #ee0e58;
+    --text-icon-nav: #ee0e58;
+    --text-color: #ee0e58;
+    --border-navbar: #ed3b77;
+    --logo-color: #e81b5f;
+    --sci-color: #e81b5f;
+    --text-color-2: rgb(191, 74, 74);
+    --background-color-1: rgb(243, 193, 140);
+    --background-color-2: rgba(251, 236, 220, 0.83);
+    --background-color-3: rgba(253, 225, 195, 0.83);
+    --background-color-4: rgba(234, 191, 146, 0.83);
+    --navbar-background: rgb(243, 193, 140);
+    --container-background: #f6d09f;
+    --background-header: rgb(244, 196, 146);
+    --search-text: rgb(192, 92, 92);
+    --search-placeholder: rgb(199, 123, 123);
+    --userbox-background: rgba(250, 216, 180, 0.83);
+    --userbox-hover: rgba(253, 218, 180, 0.83);
+    --az-filter: rgb(249, 213, 174);
+    --az-filter-hover: #e89bb5;
+    --book-title: #eb3974;
+    --book-author: rgb(208, 4, 4);
+    --input-text-color: rgb(198, 51, 51);
+    --input-text-background: rgba(248, 191, 130, 0.83);
+    --tool-bar-background: rgba(238, 181, 120, 0.83);
+    --tool-hover: #f8d2df;
+    --book-cover-title: #f01b62;
+    --book-cover-author: rgb(211, 77, 77);
+    --book-cover-etc-text-color: #f01b62;
+    --book-cover-etc-head-tag: rgba(238, 181, 120);
+    --star-color: #ffb618;
+    --overlay-background-color-1: #000;
+    --overlay-background-color-2: rgba(0, 0, 0, 0.3);
+    --rate-not-checked-color: rgb(169, 158, 158);
+    --leaderboard-list-hover: rgb(243, 189, 131);
+    --leaderboard-list-border: rgb(252, 74, 74);
+    --list-info-author: rgb(208, 4, 4);
+    --star-color-2: #fcaf08;
+    --accordion-border: #eb3974;
+    --background-color-body-accordion: rgba(253, 225, 195, 0.83);
+    --accordion-item-form-bg: rgb(246, 206, 164);
+    --accordion-item-header-hover: rgb(250, 199, 145);
+    --accordion-item-header-bg: rgb(246, 206, 164);
+}
+
+body[data_theme='dark'] {
+    --scrollbar-color: #3d3c3c;
+    --text-color-1: white;
+    --text-icon-nav: #00a5c6;
+    --text-color: white;
+    --border-navbar: #282828;
+    --logo-color: white;
+    --sci-color: #8f8d8d;
+    --text-color-2: rgb(223, 221, 221);
+    --background-color-1: #272727;
+    --background-color-2: #191818;
+    --background-color-3: #191818;
+    --background-color-4: #0096B5;
+    --navbar-background: #272727;
+    --container-background: #1a1a1a;
+    --background-header: #232222;
+    --search-text: #8f8d8d;
+    --search-placeholder: #8f8d8d;
+    --userbox-background: #2f2f2f;
+    --userbox-hover: #2f2f2f;
+    --az-filter: #2f2f2f;
+    --az-filter-hover: #02a2c2;
+    --book-title: rgb(223, 221, 221);
+    --book-author: #9f9e9e;
+    --input-text-color: rgb(207, 206, 206);
+    --input-text-background: #333333;
+    --tool-bar-background: #2f2f2f;
+    --tool-hover: #0096B5;
+    --book-cover-title: rgb(223, 221, 221);
+    --book-cover-author: #9f9e9e;
+    --book-cover-etc-text-color: #0096B5;
+    --book-cover-etc-head-tag: #8f8d8d;
+    --star-color: #ffb618;
+    --overlay-background-color-1: #000;
+    --overlay-background-color-2: rgba(0, 0, 0, 0.863);
+    --rate-not-checked-color: rgb(169, 158, 158);
+    --leaderboard-list-hover: #272626d3;
+    --leaderboard-list-border: #017b93;
+    --list-info-author: #9f9e9e;
+    --star-color-2: #fcaf08;
+    --accordion-border: #3d3c3c;
+    --background-color-body-accordion: #2f2f2f;
+    --accordion-item-form-bg: #0096B5;
+    --accordion-item-header-hover: #1f1e1e;
+    --accordion-item-header-bg: #1c1c1c;
 }
 
 ::-webkit-scrollbar {
@@ -79,21 +174,20 @@ html {
 
 /* Handle */
 
- ::-webkit-scrollbar-thumb {
-    background: rgb(191, 74, 74);
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-color);
     border-radius: 10px;
 }
 
 
 /* Handle on hover */
 
- ::-webkit-scrollbar-thumb:hover {
-    background: #ee0e58;
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-color-1);
 }
 
 a {
     text-decoration: none;
-    color: black;
 }
 
 ul {
@@ -110,13 +204,13 @@ input[type="submit"],
 input[type="button"] {
     padding: 8px 30px;
     font-size: 1rem;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     text-decoration: none;
     font-weight: bold;
-    color: #ee0e58;
-    background: rgba(234, 191, 146, 0.83);
-    border: 1px solid #ee0e58;
+    color: var(--text-color-1);
+    background: var(--background-color-4);
+    border: 1px solid var(--accordion-border);
     margin-right: 8px;
 }
 
@@ -124,12 +218,13 @@ button:hover,
 input[type="submit"]:hover,
 input[type="button"]:hover,
 input[type="file"]::-webkit-file-upload-button:hover {
-    background: rgba(253, 225, 195, 0.83);
+    border: 1px solid var(--accordion-border);
+    background: var(--background-color-3);
     transition: all 0.3s ease-in-out;
 }
 
 input[type="file"] {
-    color: #ee0e58;
+    color: var(--text-color-1);
 }
 
 input[type="file"]::-webkit-file-upload-button {
@@ -139,22 +234,22 @@ input[type="file"]::-webkit-file-upload-button {
     cursor: pointer;
     text-decoration: none;
     font-weight: bold;
-    color: #ee0e58;
-    background: rgba(234, 191, 146, 0.83);
-    border: 1px solid #ee0e58;
+    color: var(--text-color-1);
+    background: var(--background-color-4);
+    border: 1px solid var(--accordion-border);
 }
 
 
 /* Navigation Bar */
 
 .navigation-bar {
-    width: 220px;
+    width: 230px;
     height: 100vh;
     position: sticky;
     top: 0;
     z-index: 1;
-    background: rgba(247, 181, 111, 0.83);
-    border-right: 2px solid #ed3b77;
+    background: var(--navbar-background);
+    border-right: 2px solid var(--border-navbar);
 }
 
 
@@ -170,11 +265,11 @@ input[type="file"]::-webkit-file-upload-button {
 .logo i {
     font-size: 2.2em;
     margin-left: 0.2em;
-    color: #e81b5f;
+    color: var(--logo-color);
 }
 
 .logo p {
-    color: #e81b5f;
+    color: var(--logo-color);
     font-size: 2.2em;
 }
 
@@ -183,8 +278,8 @@ input[type="file"]::-webkit-file-upload-button {
 
 .navigation-bar .list-option li {
     font-size: 1em;
-    background: rgb(243, 193, 140);
-    color: rgb(191, 74, 74);
+    background: var(--background-color-1);
+    color: var(--text-color-2);
     padding: 1em 2.1em;
     display: flex;
 }
@@ -196,35 +291,35 @@ input[type="file"]::-webkit-file-upload-button {
 }
 
 .navigation-bar .list-option .inactive:hover {
-    background: rgba(251, 236, 220, 0.83);
+    background: var(--background-color-2);
     transition: all ease-in-out 0.2s;
 }
 
 .navigation-bar .list-option .inactive:hover i {
     display: inline-block;
     margin-right: 7.5px;
-    color: #ee0e58;
+    color: var(--text-icon-nav);
     animation: pop_out 0.2s ease-in-out;
 }
 
 .navigation-bar .list-option .inactive:hover p {
     display: inline-block;
-    color: #ee0e58;
+    color: var(--text-color);
     animation: pop_out 0.2s ease-in-out;
 }
 
 .navigation-bar .list-option .active i {
-    color: #ee0e58;
+    color: var(--text-icon-nav);
     display: inline-block;
     margin-right: 7.5px;
 }
 
 .navigation-bar .list-option .active p {
-    color: #ee0e58;
+    color: var(--text-color);
 }
 
 .navigation-bar .list-option .active {
-    background: rgba(253, 225, 195, 0.83);
+    background: var(--background-color-3);
 }
 
 @keyframes pop_out {
@@ -265,8 +360,8 @@ input[type="file"]::-webkit-file-upload-button {
 
 .list-sci li a {
     font-size: 1.8em;
-    color: #e81b5f;
-    margin-left: 11px;
+    color: var(--sci-color);
+    margin-left: 16px;
 }
 
 
@@ -274,7 +369,7 @@ input[type="file"]::-webkit-file-upload-button {
 
 .container {
     flex: 5.5;
-    background: #f6d09f;
+    background: var(--container-background);
 }
 
 
@@ -288,39 +383,40 @@ input[type="file"]::-webkit-file-upload-button {
 
 .library-header {
     display: flex;
-    padding: 2.5em 0;
-    background: rgb(244, 196, 146);
+    padding: 36px 0;
+    background: var(--background-header);
 }
 
 
 /* Search Panel */
 
 .search-panel {
-    flex: 5;
+    flex: 5.05;
     display: flex;
     align-items: center;
     margin-left: 18px;
 }
 
 .search-panel i {
-    font-size: 1.8em;
-    color: #ee0e58;
+    font-size: 36px;
+    color: var(--text-color-1);
     margin-left: 10px;
+    margin-right: 6px;
 }
 
 .search-panel input[type="search"] {
     padding-left: 16px;
-    font-size: 30px;
+    font-size: 36px;
     width: 80%;
     border: none;
     outline: 0;
-    color: rgb(192, 92, 92);
-    background: rgb(244, 196, 146);
+    color: var(--search-text);
+    background: var(--background-header);
 }
 
 .search-panel input[type="search"]::placeholder {
-    color: rgb(199, 123, 123);
-    font-size: 18px;
+    color: var(--search-placeholder);
+    font-size: 20px;
     transform: translate(0, -2.5px);
 }
 
@@ -329,9 +425,9 @@ input[type="file"]::-webkit-file-upload-button {
 
 .library-title {
     flex: 5;
-    font-size: 31px;
+    font-size: 18px;
     margin-left: 32px;
-    color: #ee0e58;
+    color: var(--text-color-1);
 }
 
 
@@ -346,14 +442,14 @@ input[type="file"]::-webkit-file-upload-button {
 .user-box {
     display: flex;
     align-items: center;
-    background: rgba(250, 216, 180, 0.83);
+    background: var(--userbox-background);
     max-width: 90%;
     border-radius: 40px;
 }
 
 .user-box i {
     font-size: 28px;
-    color: rgb(191, 74, 74);
+    color: var(--text-color-2);
 }
 
 .username {
@@ -365,24 +461,24 @@ input[type="file"]::-webkit-file-upload-button {
     font-size: 14px;
     margin-right: 14px;
     margin-top: 2px;
-    color: rgb(191, 74, 74);
+    color: var(--text-color-2);
 }
 
 .user-box:hover {
     transition: all 0.3s ease-in-out;
     max-width: 95%;
-    background: rgba(253, 218, 180, 0.83);
+    background: var(--userbox-hover);
 }
 
 .user-box:hover i {
     transition: all 0.3s ease-in-out;
     font-size: 2.1em;
     margin-right: 6px;
-    color: #ee0e58;
+    color: var(--text-color-1);
 }
 
 .user-box:hover .username {
-    color: #ee0e58;
+    color: var(--text-color-1);
 }
 
 
@@ -396,11 +492,11 @@ input[type="file"]::-webkit-file-upload-button {
 
 .az-filter {
     display: flex;
-    color: #ee0e58;
+    color: var(--text-color-1);
     margin-bottom: 2.4em;
     font-size: 0.85em;
     justify-content: center;
-    background: rgb(249, 213, 174);
+    background: var(--az-filter);
 }
 
 .az-filter span {
@@ -410,7 +506,7 @@ input[type="file"]::-webkit-file-upload-button {
 }
 
 .az-filter span:hover {
-    color: #e89bb5;
+    color: var(--az-filter-hover);
 }
 
 
@@ -428,9 +524,10 @@ input[type="file"]::-webkit-file-upload-button {
     margin-left: 28px;
     padding: 4px;
     margin-right: 2.8%;
+    font-weight: bold;
     font-size: 24px;
-    color: #ee0e58;
-    border-bottom: 1px solid #ee0e58;
+    color: var(--text-icon-nav);
+    border-bottom: 1px solid var(--scrollbar-color);
 }
 
 
@@ -475,14 +572,14 @@ input[type="file"]::-webkit-file-upload-button {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    color: #eb3974;
+    color: var(--book-title);
 }
 
 .item-cover-book .book-author {
     font-size: 12px;
     display: inline-block;
     text-align: center;
-    color: rgb(208, 4, 4);
+    color: var(--book-author);
 }
 
 .item-cover-book:hover img {
@@ -511,7 +608,7 @@ input[type="file"]::-webkit-file-upload-button {
 
 .input-group .input-title {
     margin-bottom: 10px;
-    color: #ee0e58;
+    color: var(--text-color-1);
 }
 
 .input-group input[type="text"],
@@ -521,10 +618,10 @@ textarea {
     font-size: 1rem;
     width: 90%;
     border-radius: 4px;
-    background: rgba(248, 191, 130, 0.83);
-    border: 1px solid #ee0e58;
+    background: var(--input-text-background);
+    border: 1px solid var(--text-color-1);
     padding-left: 4px;
-    color: rgb(198, 51, 51);
+    color: var(--input-text-color);
     outline: 0;
 }
 
@@ -551,7 +648,7 @@ textarea {
 
 .tool-bar {
     display: flex;
-    background: rgba(238, 181, 120, 0.83);
+    background: var(--tool-bar-background);
     position: sticky;
     top: 0;
     z-index: 1;
@@ -566,26 +663,26 @@ textarea {
 
 .tool i {
     margin-right: 5px;
-    color: #ee0e58;
+    color: var(--text-color-1);
 }
 
 .tool a {
-    color: #ee0e58;
+    color: var(--text-color-1);
     cursor: pointer;
 }
 
 .tool a:hover i {
-    color: #f5dae3;
+    color: var(--tool-hover);
 }
 
 .tool a:hover {
-    color: #f5dae3;
+    color: var(--tool-hover);
 }
 
 .close-btn {
     flex: 1;
     font-size: 32px;
-    color: #ee0e58;
+    color: var(--text-color-1);
 }
 
 .add-book-site button {
@@ -622,26 +719,26 @@ textarea {
     font-size: 36px;
     line-height: 1.2em;
     font-weight: bold;
-    color: #f01b62;
+    color: var(--book-cover-title);
 }
 
 .book-cover-author {
     font-size: 24px;
     margin-bottom: 20px;
-    color: rgb(211, 77, 77);
+    color: var(--book-cover-author);
 }
 
 .book-cover-date-added {
     font-size: 14px;
-    color: rgb(198, 51, 51);
+    color: var(--input-text-color);
 }
 
 .book-cover-status {
-    color: rgb(198, 51, 51);
+    color: var(--input-text-color);
 }
 
 .book-info strong {
-    color: #f01b62;
+    color: var(--book-cover-title);
 }
 
 .book-cover-status {
@@ -652,33 +749,33 @@ textarea {
 .book-cover-etc a {
     padding: 18px 0;
     font-size: 26px;
-    border-bottom: 3px solid #f01b62;
-    color: #f01b62;
+    border-bottom: 3px solid var(--book-cover-etc-text-color);
+    color: var(--book-cover-title);
 }
 
 .book-cover-etc .head-tag {
-    border-bottom: 2px solid rgba(238, 181, 120);
+    border-bottom: 2px solid var(--book-cover-etc-head-tag);
     padding: 14px 0;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-weight: bold;
     margin-right: 5%;
-    color: #f01b62;
+    color: var(--book-cover-title);
 }
 
 .book-cover-etc p {
     padding: 18px 0;
-    color: rgb(198, 51, 51);
+    color: var(--input-text-color);
     padding-right: 5%;
 }
 
 .book-cover-etc .book-cover-rating {
     font-size: 28px;
-    margin-bottom: 40px;
-    color: rgb(198, 51, 51);
+    margin-bottom: 30px;
+    color: var(--input-text-color);
 }
 
 .book-cover-rating i {
-    color: #ffb618;
+    color: var(--star-color);
 }
 
 
@@ -690,8 +787,8 @@ textarea {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #000;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: var(--overlay-background-color-1);
+    background-color: var(--overlay-background-color-2);
     display: none;
     z-index: 2000;
 }
@@ -712,13 +809,13 @@ textarea {
     box-sizing: border-box;
     box-shadow: 0 4px 10px rgb(0 0 0 / 30%);
     padding: 40px;
-    background: #f6d09f;
+    background: var(--container-background);
 }
 
 .overlay-delete h1 {
     margin-bottom: 30px;
     font-size: 1.5rem;
-    color: #f01b62;
+    color: var(--book-cover-title);
 }
 
 .overlay-delete button,
@@ -742,14 +839,14 @@ textarea {
     z-index: 2100;
     box-sizing: border-box;
     box-shadow: 0 4px 10px rgb(0 0 0 / 30%);
-    background: #f6d09f;
+    background: var(--container-background);
     padding: 30px;
     text-align: center;
 }
 
 .overlay-rating h1 {
     font-size: 1.5rem;
-    color: #f01b62;
+    color: var(--book-cover-title);
 }
 
 .rate {
@@ -768,7 +865,7 @@ textarea {
     white-space: nowrap;
     cursor: pointer;
     font-size: 30px;
-    color: rgb(169, 158, 158);
+    color: var(--rate-not-checked-color);
     transform: translate(-145px, 0);
 }
 
@@ -777,12 +874,12 @@ textarea {
 }
 
 .rate>input[type="radio"]:checked~label {
-    color: #ffb618;
+    color: var(--star-color);
 }
 
 .rate:not(:checked)>label:hover,
 .rate:not(:checked)>label:hover~label {
-    color: #ffb618;
+    color: var(--star-color);
 }
 
 .rate>input[type="radio"]:checked+label:hover,
@@ -790,7 +887,7 @@ textarea {
 .rate>input[type="radio"]:checked~label:hover,
 .rate>input[type="radio"]:checked~label:hover~label,
 .rate>input[type="radio"]:hover~input[type="radio"]:checked~label {
-    color: #ffb618;
+    color: var(--star-color);
 }
 
 .rate .comment {
@@ -804,7 +901,7 @@ textarea {
 }
 
 .comment p {
-    color: #f01b62;
+    color: var(--book-cover-title);
     font-size: 18x;
 }
 
@@ -816,6 +913,42 @@ textarea {
 .overlay-rating input[type="submit"] {
     padding: 10px 80px;
     transform: translate(-110px, 60px);
+}
+
+
+/* Overlay borrow */
+
+.overlay-borrow {
+    color: white;
+    border-radius: 8px;
+    width: 520px;
+    position: fixed;
+    display: none;
+    height: auto;
+    top: 40%;
+    transform: translateY(-50%);
+    left: calc(50% - 250px);
+    z-index: 2100;
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 30%);
+    padding: 40px;
+    background: var(--container-background);
+    text-align: center;
+}
+
+.overlay-borrow button,
+.overlay-borrow input[type="submit"] {
+    padding: 10px 75px;
+    margin-right: 4px;
+    margin-left: 6px;
+}
+
+.overlay-borrow .rule {
+    color: red;
+    padding: 30px 10px 30px 10px;
+    border: 1px solid red;
+    margin-bottom: 30px;
+    border-radius: 10px;
 }
 
 
@@ -833,7 +966,7 @@ textarea {
 
 .leaderboard-header {
     font-size: 1.2em;
-    color: #ee0e58;
+    color: var(--text-icon-nav);
     padding: 20px;
     text-align: center;
     border-radius: 8px 8px 0 0;
@@ -847,21 +980,21 @@ textarea {
 .leaderboard-list {
     display: flex;
     height: 105px;
-    background: rgb(244, 196, 146);
-    border: 1px solid rgb(252, 74, 74);
+    background: var(--background-header);
+    border: 1px solid var(--leaderboard-list-border);
 }
 
 .leaderboard-list:hover {
     opacity: 1;
     transform: scaleX(1.04) scaleY(1.01);
     transition: all 0.3s ease-in-out;
-    background: rgb(243, 189, 131);
+    background: var(--leaderboard-list-hover);
     box-shadow: 0 2.5px 0 rgba(0, 0, 0, .12);
 }
 
 .list-top {
     flex: 1;
-    color: #ee0e58;
+    color: var(--text-color-1);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -891,7 +1024,7 @@ textarea {
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin-left: 3%;
-    color: #ee0e58;
+    color: var(--text-color-1);
 }
 
 .list-info-author {
@@ -901,7 +1034,7 @@ textarea {
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin-left: 3%;
-    color: rgb(208, 4, 4);
+    color: var(--book-author);
 }
 
 .list-rate {
@@ -912,15 +1045,212 @@ textarea {
 }
 
 .list-rate p {
-    color: rgb(208, 4, 4);
+    color: var(--book-author);
     margin-top: 2px;
     margin-left: 3px;
     margin-right: 2px;
 }
 
 .list-rate i {
-    color: #fcaf08;
+    color: var(--star-color-2);
 }
 
 
 /******* Leaderboard ******/
+
+
+/******* Accordion Bar *******/
+
+.accordion {
+    margin-top: 40px;
+}
+
+.accordion-item {
+    width: 60%;
+    margin-left: 7%;
+    border: 1px solid var(--accordion-border);
+    border-radius: 6px;
+}
+
+.accordion-item-header {
+    background: var(--accordion-item-header-bg);
+    color: var(--text-color-1);
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    font-weight: bold;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.accordion-item-header.active-accordion {
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.accordion-item-header::after {
+    content: "";
+    display: inline-block;
+    float: right;
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid var(--book-title);
+    border-top: 2px solid var(--book-title);
+    font-size: 2rem;
+    margin-top: 3px;
+    margin-bottom: 5px;
+    transform: rotate(45deg);
+    transition: all 0.2s ease-in-out;
+}
+
+.accordion-item-header.active-accordion::after {
+    transform: rotate(135deg);
+    transition: all 0.2s ease-in-out;
+    margin-bottom: 2px;
+}
+
+.active-accordion,
+.accordion-item-header:hover {
+    background-color: var(--accordion-item-header-hover);
+}
+
+.accordion-item-body {
+    padding: 0 24px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background-color: var(--background-color-body-accordion);
+    height: 0px;
+    transform: scaleY(0);
+    transition: all 0.2s ease-in-out;
+}
+
+.accordion-item-body.active-accordion {
+    display: block;
+    padding: 30px 24px;
+    height: auto;
+    transform: scaleY(1);
+    transform-origin: top;
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.setting-form {
+    display: flex;
+}
+
+.setting-form .select-theme,
+.setting-form .change-email {
+    flex: 3;
+    display: flex;
+    align-items: center;
+}
+
+.setting-form select,
+.setting-form input[type="email"] {
+    font-size: 14px;
+    width: 90%;
+    padding: 12px 12px;
+    border: 1px solid var(--accordion-border);
+    background-color: var(--accordion-item-header-bg);
+    color: var(--text-color-1);
+    outline: 0;
+}
+
+.setting-form input[type="submit"] {
+    flex: 1;
+    border: 1px solid var(--accordion-border);
+    background-color: var(--accordion-item-form-bg);
+    outline: 0;
+}
+
+.setting-form input[type="submit"]:hover {
+    background-color: var(--accordion-item-header-hover);
+}
+
+
+/******** Success Notification ********/
+
+.success-notification {
+    position: absolute;
+    width: 400px;
+    margin-top: 15px;
+    margin-left: 43%;
+    background: #28724b;
+    color: #e8e6e6;
+    height: 60px;
+    animation: pop_up 8s ease-in-out;
+    border-radius: 8px;
+    transform: translate(0, -500px);
+    z-index: 9999;
+}
+
+.success-notification .message {
+    display: flex;
+    height: 54px;
+    align-items: center;
+    background: #4AAF79;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.message i {
+    margin-left: 20px;
+    flex: 1;
+    font-size: 26px
+}
+
+.message span {
+    flex: 8;
+    font-size: 18px;
+}
+
+.notification-close {
+    flex: 1;
+}
+
+.notification-close i {
+    transform: translate(-4px, -10px);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.success-notification .process {
+    background: #4AAF79;
+    width: 100%;
+    height: 6px;
+    animation: swing 6s linear;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+@keyframes pop_up {
+    0% {
+        transform: translate(0, 500);
+    }
+    5% {
+        transform: translate(0, 0);
+    }
+    75% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes swing {
+    0% {
+        width: 0%;
+    }
+    6% {
+        width: 0%;
+    }
+    100% {
+        width: 100%;
+    }
+}

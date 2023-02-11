@@ -1,5 +1,6 @@
 let overlay_mode = 0;
 
+
 function currentYPosition() {
     // if (self.pageYOffset) return self.pageYOffset;
     // if (document.documentElement && document.documentElement.scrollTop)
@@ -70,4 +71,27 @@ function Overlay(input) {
 
 function Delete(_id) {
     window.location.replace("/delete/" + _id);
+}
+
+function Borrow(_id) {
+    window.location.replace("/borrow/" + _id);
+}
+var accordion_header = document.getElementsByClassName("accordion-item-header");
+for (var i = 0; i < accordion_header.length; i++) {
+    accordion_header[i].addEventListener("click", function() {
+        this.classList.toggle("active-accordion");
+        var accordion_body = this.nextElementSibling;
+        accordion_body.classList.toggle("active-accordion");
+    });
+}
+
+var notification_close = document.getElementsByClassName("notification-close");
+for (var i = 0; i < notification_close.length; i++) {
+    notification_close[i].onclick = function() {
+        var success_notification = this.parentElement.parentElement;
+        success_notification.style.opacity = "0";
+        setTimeout(function() {
+            success_notification.style.display = "none";
+        }, 600);
+    }
 }

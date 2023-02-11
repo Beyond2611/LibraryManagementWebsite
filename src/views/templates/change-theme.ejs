@@ -1,0 +1,5 @@
+<script> 
+    var theme = "<%= session.theme %>"; 
+    if(theme) document.body.setAttribute("data_theme", theme);
+    else document.body.setAttribute("data_theme" , "royal");
+</script>

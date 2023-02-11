@@ -5,6 +5,7 @@ const books = require('../public/js/book');
 // Library Page
 let getLibraryPage = async(req, res) => {
     var [Books] = await pool.execute('select * from books');
+    var message = req.flash('message');
     let Booklist = new Set();
     for (var i = 0; i < Books.length; i++) {
         Booklist.add(Books[i].book_title[0].toUpperCase());
@@ -16,7 +17,7 @@ let getLibraryPage = async(req, res) => {
     req.session.total = Books.length;
     req.session.BookLetters = Booklist;
     req.session.page = "Library";
-    return res.render('library.ejs', { session: req.session });
+    return res.render('library.ejs', { session: req.session, message });
 }
 
 let getSearchedLibraryPage = async(req, res) => {
@@ -57,8 +58,9 @@ let getSearchedMyCollectionPage = async(req, res) => {
 
 // Profile Page 
 let getProfile = async(req, res) => {
+    var message = req.flash('message');
     req.session.page = "Profile";
-    return res.render('profile.ejs', { session: req.session });
+    return res.render('profile.ejs', { session: req.session, message });
 }
 
 // Add Book Page
@@ -84,14 +86,15 @@ let AddBook = async(req, res) => {
             console.log("file uploaded");
         }
     });
-    req.flash('message', 'Book added');
+    req.flash('message', 'Book added successfully');
     res.redirect('/add-book');
 }
 
 // Setting Page
 let getSettingPage = async(req, res) => {
     req.session.page = "Setting";
-    return res.render("setting.ejs", { session: req.session });
+    var message = req.flash('message');
+    return res.render("setting.ejs", { session: req.session, message });
 }
 
 // Support Page
@@ -105,6 +108,17 @@ let getLeaderBoardPage = async(req, res) => {
     req.session.num_book = req.params.top;
     req.session.bookInfo = bookInfo;
     return res.render("leaderboard.ejs", { session: req.session });
+}
+let changeTheme = async(req, res) => {
+    req.session.theme = req.body.theme;
+    console.log(req.session.theme);
+    req.flash('message', 'Change theme successfully');
+    res.redirect('/setting');
+}
+let changeEmail = async(req, res) => {
+    await pool.execute('update user set email= ? where user_id = ?', [req.body.email, req.session.user_id])
+    req.flash('message', 'Change email successfully');
+    res.redirect('/profile/' + req.session.user_id);
 }
 let viewMore = async(req, res) => {
     req.session.num_book = Math.min(10 + req.session.num_book, req.session.total);
@@ -128,6 +142,8 @@ module.exports = {
     getSupportPage,
     getLeaderBoardPage,
     getSearchedMyCollectionPage,
+    changeTheme,
+    changeEmail,
     viewMore,
     Logout
 }

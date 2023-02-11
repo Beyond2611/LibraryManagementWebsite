@@ -5,11 +5,12 @@ const books = require('../public/js/book');
 // Book-info
 let getBookInfo = async(req, res) => {
     console.log(req.params);
+    var message = req.flash('message');
     var [BookInfo] = await pool.execute('select * from books where book_id = ?', [req.params.book_id]);
     var [Rating] = await pool.execute('select COALESCE(round(AVG(point), 1),0) as Avg from rating where book_id = ?', [req.params.book_id]);
     var Rate = Rating[0].Avg;
     console.log(Rating);
-    return res.render("book.ejs", { session: req.session, BookInfo, Rate });
+    return res.render("book.ejs", { session: req.session, BookInfo, Rate, message });
 }
 
 // Rating
@@ -24,6 +25,7 @@ let Rate = async(req, res) => {
     const [User] = await pool.execute('Select * from rating where user_id = ? and book_id = ?', [req.session.user_id, req.params.book_id]);
     if (User.length) await pool.execute('update rating set point = ? where user_id = ?', [req.body.rate, req.session.user_id]);
     else await pool.execute('insert into rating (user_id, book_id, point) values (?,?,?)', [req.session.user_id, req.params.book_id, req.body.rate]);
+    req.flash('message', 'Rate book successfully');
     res.redirect('/book/' + req.params.book_id);
 }
 
@@ -34,7 +36,10 @@ let getEditBookPage = async(req, res) => {
 }
 
 let Delete = async(req, res) => {
+    await pool.execute('delete from borrow where book_id = ?', [req.params._id]);
+    await pool.execute('delete from rating where book_id = ?', [req.params._id]);
     await pool.execute('delete from books where book_id = ?', [req.params._id]);
+    req.flash('message', 'Delete book successfully');
     res.redirect('/library');
 }
 
@@ -47,13 +52,17 @@ let Edit = async(req, res) => {
     console.log(img);
     console.log(req.params);
     await pool.execute('update books set book_title = ?, book_desc = ?, author = ?, publisher = ?, cover = ? where book_id = ? ', [req.body.book_title, req.body.book_desc, req.body.author, req.body.publisher, img, req.params._id]);
+    req.flash('message', 'Edit book successfully');
     res.redirect('/book/' + req.params._id);
 }
+let Borrow = async(req, res) => {
 
+}
 module.exports = {
     getBookInfo,
     Rate,
     getEditBookPage,
     Delete,
+    Borrow,
     Edit
 }

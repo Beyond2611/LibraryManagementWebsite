@@ -2,50 +2,47 @@
 <html lang="en">
 
 <head>
-    <title> Libib | Library Management Web </title>
+    <title> Libib | Add Books </title>
     <%- include('../templates/library-stylesheet.ejs') %>
 </head>
 
 <body>
-    <div class="user-interface">
+    <%- include('../templates/success.ejs') %>
+        <div class="user-interface">
 
-        <%- include('../templates/nav-bar.ejs') %>
-            <div class="container">
-                <%- include('../templates/header.ejs') %>
-                    <div class="add-book-site">
-                        <form id="form" action="/add-book" method="POST" enctype="multipart/form-data">
-                            <div class="input-group">
-                                <div class="input-title"><label for="image">Image</label> </div>
-                                <div class="input-space"> <input type="file" name="image" id="image"> </div>
-                            </div>
-                            <div class="input-group">
-                                <div class="input-title"> <label for="book_title"> Title </label> </div>
-                                <input type="text" name="book_title" id="book_title" required>
-                            </div>
-                            <div class="input-group">
-                                <div class="input-title"> <label for="author"> Author </label> </div>
-                                <input type="text" name="author" id="author" required>
-                            </div>
-                            <div class="input-group">
-                                <div class="input-title"> <label for="publisher"> Publisher </label> </div>
-                                <input type="text" name="publisher" id="publisher" required>
-                            </div>
-                            <div class="input-group">
-                                <div class="input-title"><label for="book_desc"> Description </label> </div>
-                                <textarea name="book_desc" id="book_desc" required></textarea>
-                            </div>
-                            <div class="input-group">
-                                <input type="submit" value="Submit" id="submit">
-                            </div>
-                        </form>
-                        <% if(message != '') {%>
-                            <div style="color: lawngreen; font-family: Arial, Helvetica, sans-serif;">
-                                <%= message%>
-                            </div>
-                            <% } %>
-                    </div>
+            <%- include('../templates/nav-bar.ejs') %>
+                <div class="container">
+                    <%- include('../templates/header.ejs') %>
+                        <div class="add-book-site">
+                            <form id="form" action="/add-book" method="POST" enctype="multipart/form-data">
+                                <div class="input-group">
+                                    <div class="input-title"><label for="image">Image</label> </div>
+                                    <div class="input-space"> <input type="file" name="image" id="image"> </div>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-title"> <label for="book_title"> Title </label> </div>
+                                    <input type="text" name="book_title" id="book_title" required>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-title"> <label for="author"> Author </label> </div>
+                                    <input type="text" name="author" id="author" required>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-title"> <label for="publisher"> Publisher </label> </div>
+                                    <input type="text" name="publisher" id="publisher" required>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-title"><label for="book_desc"> Description </label> </div>
+                                    <textarea name="book_desc" id="book_desc" required></textarea>
+                                </div>
+                                <div class="input-group">
+                                    <input type="submit" value="Submit" id="submit">
+                                </div>
+                            </form>
+                        </div>
 
-            </div>
+                </div>
 </body>
+<%- include('../templates/change-theme.ejs') %>
 
 </html>
