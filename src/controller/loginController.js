@@ -18,6 +18,7 @@ function Clear(object) {
     for (const property in object) object[property] = '';
 }
 let getLoginPage = (req, res) => {
+    req.session.theme = '';
     res.render('login.ejs', dataUser)
     Clear(dataUser);
     return;

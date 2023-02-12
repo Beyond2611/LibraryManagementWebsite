@@ -24,7 +24,8 @@ router.get("/library/:key", async(req, res) => {
     console.log(Booklist);
     req.session.Bookdata = Books;
     req.session.BookLetters = Booklist;
-    return res.render('library.ejs', { session: req.session });
+    var message = '';
+    return res.render('library.ejs', { session: req.session, message });
 });
 router.get('/my-collection', libraryController.getMyCollectionPage);
 router.post('/my-collection', libraryController.SearchInMyCollection);
@@ -42,7 +43,8 @@ router.get("/my-collection/:key", async(req, res) => {
     console.log(Booklist);
     req.session.Bookdata = Books;
     req.session.BookLetters = Booklist;
-    return res.render('my-collection.ejs', { session: req.session });
+    var message = '';
+    return res.render('my-collection.ejs', { session: req.session, message });
 });
 router.get('/setting', libraryController.getSettingPage);
 router.get('/support', libraryController.getSupportPage);
