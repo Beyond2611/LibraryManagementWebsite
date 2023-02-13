@@ -37,8 +37,12 @@
                             <div class="book-cover-author"> <strong> Author: </strong>
                                 <%= BookInfo[0].author %>
                             </div>
-                            <div class="book-cover-date-added"> <strong>Publisher: </strong> Publisher</div>
-                            <div class="book-cover-date-added"> <strong>Added: </strong> Date</div>
+                            <div class="book-cover-date-added"> <strong>Publisher: </strong>
+                                <%= BookInfo[0].author %>
+                            </div>
+                            <div class="book-cover-date-added"> <strong>Added: </strong>
+                                <%= BookInfo[0].date_add %>
+                            </div>
                             <div class="book-cover-status">
                                 <% if(BookInfo[0].available){ %>
                                     <strong>Status: </strong> Available
@@ -64,8 +68,12 @@
                                 </li>
                                 <li>
                                     <div class="book-cover-buttons">
-                                        <button onclick="Overlay('borrow')"> Borrow </button>
-                                        <button onclick="Overlay('rating')"> Rate </button>
+                                        <% if(BookInfo[0].available == 1 && Borrow.length == 0) { %>
+                                            <button onclick="Overlay('borrow')"> Borrow </button>
+                                            <% } else if(Borrow.length){ %>
+                                                <button onclick="Return(<%=BookInfo[0].book_id%>)"> Return </button>
+                                                <% } %>
+                                                    <button onclick="Overlay('rating')"> Rate </button>
                                     </div>
                                 </li>
                             </ul>

@@ -7,10 +7,11 @@ let getBookInfo = async(req, res) => {
     console.log(req.params);
     var message = req.flash('message');
     var [BookInfo] = await pool.execute('select * from books where book_id = ?', [req.params.book_id]);
+    var [Borrow] = await pool.execute('select * from borrow where book_id = ? and user_id = ?', [req.params.book_id, req.session.user_id]);
     var [Rating] = await pool.execute('select COALESCE(round(AVG(point), 1),0) as Avg from rating where book_id = ?', [req.params.book_id]);
     var Rate = Rating[0].Avg;
     console.log(Rating);
-    return res.render("book.ejs", { session: req.session, BookInfo, Rate, message });
+    return res.render("book.ejs", { session: req.session, BookInfo, Rate, Borrow, message });
 }
 
 // Rating
@@ -56,7 +57,16 @@ let Edit = async(req, res) => {
     res.redirect('/book/' + req.params._id);
 }
 let Borrow = async(req, res) => {
-
+    await pool.execute('update books set available = 0 where book_id = ?', [req.params._id]);
+    await pool.execute('insert into borrow (user_id, book_id, date, return_date) values (?, ?, current_date(), date_add(current_date(), INTERVAL 7 DAY))', [req.session.user_id, req.params._id]);
+    req.flash('message', 'Borrow book successfully');
+    res.redirect('/book/' + req.params._id);
+}
+let Return = async(req, res) => {
+    await pool.execute('update books set available = 1 where book_id = ?', [req.params._id]);
+    await pool.execute('delete from borrow where book_id = ?', [req.params._id]);
+    req.flash('message', 'Return book successfully');
+    res.redirect('/book/' + req.params._id);
 }
 module.exports = {
     getBookInfo,
@@ -64,5 +74,6 @@ module.exports = {
     getEditBookPage,
     Delete,
     Borrow,
+    Return,
     Edit
 }

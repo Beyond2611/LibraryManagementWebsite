@@ -76,6 +76,10 @@ function Delete(_id) {
 function Borrow(_id) {
     window.location.replace("/borrow/" + _id);
 }
+
+function Return(_id) {
+    window.location.replace("/return/" + _id);
+}
 var accordion_header = document.getElementsByClassName("accordion-item-header");
 for (var i = 0; i < accordion_header.length; i++) {
     accordion_header[i].addEventListener("click", function() {
