@@ -2,13 +2,31 @@ import pool from '../configs/connectDB';
 const { check, validationResult } = require('express-validator');
 const books = require('../public/js/book');
 
+function convert(str) {
+    str = str.replaceAll("à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ", "a");
+    str = str.replaceAll("è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ", "e");
+    str = str.replaceAll("ì|í|ị|ỉ|ĩ", "i");
+    str = str.replaceAll("ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ", "o");
+    str = str.replaceAll("ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ", "u");
+    str = str.replaceAll("ỳ|ý|ỵ|ỷ|ỹ", "y");
+    str = str.replaceAll("đ", "d");
+
+    str = str.replaceAll("À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ", "A");
+    str = str.replaceAll("È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ", "E");
+    str = str.replaceAll("Ì|Í|Ị|Ỉ|Ĩ", "I");
+    str = str.replaceAll("Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ", "O");
+    str = str.replaceAll("Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ", "U");
+    str = str.replaceAll("Ỳ|Ý|Ỵ|Ỷ|Ỹ", "Y");
+    str = str.replaceAll("Đ", "D");
+    return str;
+}
 // Library Page
 let getLibraryPage = async(req, res) => {
     var [Books] = await pool.execute('select * from books');
     var message = req.flash('message');
     let Booklist = new Set();
     for (var i = 0; i < Books.length; i++) {
-        Booklist.add(Books[i].book_title[0].toUpperCase());
+        Booklist.add(convert(Books[i].book_title[0]).toUpperCase());
     }
     var SortedTemp = Array.from(Booklist).sort();
     Booklist = new Set(SortedTemp);
@@ -17,13 +35,13 @@ let getLibraryPage = async(req, res) => {
     req.session.total = Books.length;
     req.session.BookLetters = Booklist;
     req.session.page = "Library";
-    return res.render('library.ejs', { session: req.session, message });
+    return res.render('library.ejs', { session: req.session, message , convert});
 }
 
 let getSearchedLibraryPage = async(req, res) => {
     var [Books] = await pool.execute('select * from books');
     req.session.Bookdata = Books;
-    return res.render('library.ejs', { session: req.session });
+    return res.render('library.ejs', { session: req.session, convert });
 }
 let SearchInLibrary = async(req, res) => {
     console.log(req.body);
@@ -43,7 +61,7 @@ let getMyCollectionPage = async(req, res) => {
     req.session.Bookdata = Books;
     req.session.BookLetters = Booklist;
     req.session.page = "My collection";
-    return res.render("my-collection.ejs", { session: req.session });
+    return res.render("my-collection.ejs", { session: req.session, convert });
 }
 
 let SearchInMyCollection = async(req, res) => {
@@ -53,7 +71,7 @@ let SearchInMyCollection = async(req, res) => {
 let getSearchedMyCollectionPage = async(req, res) => {
     var [Books] = await pool.execute('select * from books b join borrow br on b.book_id = br.book_id where br.user_id = ? order by b.book_title', [req.session.user_id]);
     req.session.Bookdata = Books;
-    return res.render('my-collection.ejs', { session: req.session });
+    return res.render('my-collection.ejs', { session: req.session, convert});
 }
 
 // Profile Page 
@@ -145,5 +163,6 @@ module.exports = {
     changeTheme,
     changeEmail,
     viewMore,
-    Logout
+    Logout,
+    convert
 }
