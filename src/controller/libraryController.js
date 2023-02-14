@@ -60,8 +60,13 @@ let getMyCollectionPage = async(req, res) => {
     console.log(Booklist);
     req.session.Bookdata = Books;
     req.session.BookLetters = Booklist;
+<<<<<<< Updated upstream
     req.session.page = "My collection";
     return res.render("my-collection.ejs", { session: req.session, convert });
+=======
+    req.session.page = "my-collection";
+    return res.render("my-collection.ejs", { session: req.session });
+>>>>>>> Stashed changes
 }
 
 let SearchInMyCollection = async(req, res) => {
