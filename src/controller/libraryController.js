@@ -53,7 +53,7 @@ let getMyCollectionPage = async(req, res) => {
     var [Books] = await pool.execute('select * from books b join borrow br on b.book_id = br.book_id where br.user_id = ? order by b.book_title', [req.session.user_id]);
     let Booklist = new Set();
     for (var i = 0; i < Books.length; i++) {
-        Booklist.add(Books[i].book_title[0].toUpperCase());
+        Booklist.add(convert(Books[i].book_title[0]).toUpperCase());
     }
     var SortedTemp = Array.from(Booklist).sort();
     Booklist = new Set(SortedTemp);
