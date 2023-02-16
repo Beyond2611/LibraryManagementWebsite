@@ -35,7 +35,7 @@ let getLibraryPage = async(req, res) => {
     req.session.total = Books.length;
     req.session.BookLetters = Booklist;
     req.session.page = "Library";
-    return res.render('library.ejs', { session: req.session, message , convert});
+    return res.render('library.ejs', { session: req.session, message, convert });
 }
 
 let getSearchedLibraryPage = async(req, res) => {
@@ -61,8 +61,7 @@ let getMyCollectionPage = async(req, res) => {
     req.session.Bookdata = Books;
     req.session.BookLetters = Booklist;
     req.session.page = "my-collection";
-    return res.render("my-collection.ejs", { session: req.session });
-
+    return res.render("my-collection.ejs", { session: req.session, convert });
 }
 
 let SearchInMyCollection = async(req, res) => {
@@ -72,7 +71,7 @@ let SearchInMyCollection = async(req, res) => {
 let getSearchedMyCollectionPage = async(req, res) => {
     var [Books] = await pool.execute('select * from books b join borrow br on b.book_id = br.book_id where br.user_id = ? order by b.book_title', [req.session.user_id]);
     req.session.Bookdata = Books;
-    return res.render('my-collection.ejs', { session: req.session, convert});
+    return res.render('my-collection.ejs', { session: req.session, convert });
 }
 
 // Profile Page 
@@ -109,6 +108,12 @@ let AddBook = async(req, res) => {
     res.redirect('/add-book');
 }
 
+// Requests Page
+let getRequestsPage = async(req, res) => {
+    req.session.page = "Requests";
+    return res.render("requests.ejs", { session: req.session });
+}
+
 // Setting Page
 let getSettingPage = async(req, res) => {
     req.session.page = "Setting";
@@ -121,10 +126,11 @@ let getSupportPage = async(req, res) => {
     req.session.page = "Support";
     return res.render("support.ejs", { session: req.session });
 }
+
+// Leaderboard Page
 let getLeaderBoardPage = async(req, res) => {
     req.session.page = "Leaderboard";
-    var [bookInfo] = await pool.execute('Select b.book_id , b.book_title , b.author , b.cover , COALESCE(ROUND(AVG(r.point),1),0) as point from books b left join rating r on b.book_id = r.book_id group by b.book_id order by AVG(r.point) DESC , b.book_title limit ? ', [req.params.top]);
-    req.session.num_book = req.params.top;
+    var [bookInfo] = await pool.execute('Select b.book_id , b.book_title , b.author , b.cover , COALESCE(ROUND(AVG(r.point),1),0) as point from books b left join rating r on b.book_id = r.book_id group by b.book_id order by AVG(r.point) DESC , b.book_title');
     req.session.bookInfo = bookInfo;
     return res.render("leaderboard.ejs", { session: req.session });
 }
@@ -138,10 +144,6 @@ let changeEmail = async(req, res) => {
     await pool.execute('update user set email= ? where user_id = ?', [req.body.email, req.session.user_id])
     req.flash('message', 'Change email successfully');
     res.redirect('/profile/' + req.session.user_id);
-}
-let viewMore = async(req, res) => {
-    req.session.num_book = Math.min(10 + req.session.num_book, req.session.total);
-    return res.redirect('/leaderboard/' + req.session.num_book);
 }
 let Logout = (req, res) => {
     req.session.destroy();
@@ -161,9 +163,9 @@ module.exports = {
     getSupportPage,
     getLeaderBoardPage,
     getSearchedMyCollectionPage,
+    getRequestsPage,
     changeTheme,
     changeEmail,
-    viewMore,
     Logout,
     convert
 }

@@ -2,11 +2,11 @@ let overlay_mode = 0;
 
 
 function currentYPosition() {
-    // if (self.pageYOffset) return self.pageYOffset;
-    // if (document.documentElement && document.documentElement.scrollTop)
-    //     return document.documentElement.scrollTop;
-    // if (document.body.scrollTop) return document.body.scrollTop;
-    return 30;
+    if (self.pageYOffset) return self.pageYOffset;
+    if (document.documentElement && document.documentElement.scrollTop)
+        return document.documentElement.scrollTop;
+    if (document.body.scrollTop) return document.body.scrollTop;
+    return 0;
 }
 
 function elmYPosition(eID) {
@@ -98,4 +98,21 @@ for (var i = 0; i < notification_close.length; i++) {
             success_notification.style.display = "none";
         }, 600);
     }
+}
+var bell = document.getElementsByClassName("bell");
+for (var i = 0; i < bell.length; i++) {
+    bell[i].addEventListener("click", function() {
+        this.style.animation = "none";
+        var notification_content = this.nextElementSibling
+        notification_content.classList.toggle("active");
+        this.classList.toggle("active");
+    });
+}
+var basket = document.getElementsByClassName("basket-logo");
+for (var i = 0; i < basket.length; i++) {
+    basket[i].addEventListener("click", function() {
+        var basket_content = this.nextElementSibling;
+        basket_content.classList.toggle("active");
+        this.classList.toggle("active");
+    });
 }

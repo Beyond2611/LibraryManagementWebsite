@@ -38,7 +38,19 @@
                     </li>
                 </a>
                 <%}%>
-                    <a href="/leaderboard/<%= Math.min(session.total,10)%>">
+                <%if(session.perm[0].manage_book){%>
+                    <a href="/requests">
+                        <% if(session.page=="Requests"){ %>
+                            <li class="active">
+                         <% }else { %>
+                            <li class="inactive">
+                         <% }%> 
+                         <i class="fa-solid fa-list-check"></i>
+                            <p>Requests</p>
+                        </li>
+                    </a>
+                    <%}%>
+                    <a href="/leaderboard">
                         <% if(session.page=="Leaderboard"){ %>
                             <li class="active">
                         <% }else { %>
