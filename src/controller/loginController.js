@@ -50,13 +50,12 @@ let LoginAuth = async(req, res) => {
         var [profile] = await pool.execute('select * from user where account = ?', [account]);
         var [perm] = await pool.execute('select manage_user, manage_book, manage_order from auth left join permission on auth.auth_level = permission.auth_level where user_id = ?', [profile[0].user_id]);
         await pool.execute('update user set last_login = current_timestamp() where account =?', [account]);
-        var [cart] = await pool.execute('select user_id, cart.book_id, books.book_title, books.author, books.cover from cart join books on cart.book_id = books.book_id where user_id = ? and pending = 0', [profile[0].user_id]);
-        console.log(cart);
+
         req.session.user_id = profile[0].user_id;
         req.session.loggedin = true
         req.session.profile = profile;
         req.session.perm = perm;
-        req.session.cart = cart;
+
         console.log(req.session);
         Clear(dataUser);
         //console.log(req.session);

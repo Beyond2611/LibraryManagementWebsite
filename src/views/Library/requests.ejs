@@ -15,7 +15,7 @@
                         <%for(var item=0; item < Requests.length; item++){%>
                             <%var itemArray=JSON.parse(Requests[item].request_desc); %>
                                 <div class="accordion">
-                                    <form class="requests" action="/requests/update/:<%=Requests[item].request_id%>">
+                                    <form class="requests" action="/requests/update/<%=Requests[item].request_id%>" method="POST">
                                         <div class="accordion-item">
                                             <div class="accordion-item-header">
                                                 Request from ID:
@@ -46,7 +46,7 @@
                                                     <%}%>
                                                         <div class="wrapper">
                                                             <input type="submit" value="Accept">
-                                                            <input type="submit" value="Decline">
+                                                            <input type="submit" formaction="/requests/delete/<%=Requests[item].request_id%>" value="Decline">
                                                         </div>
 
                                             </div>

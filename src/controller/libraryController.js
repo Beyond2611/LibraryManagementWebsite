@@ -37,12 +37,14 @@ let getLibraryPage = async(req, res) => {
     for (var i = 0; i < Books.length; i++) {
         Booklist.add(convert(Books[i].book_title[0]).toUpperCase());
     }
+    var [cart] = await pool.execute('select user_id, cart.book_id, books.book_title, books.author, books.cover from cart join books on cart.book_id = books.book_id where user_id = ? and pending = 0', [req.session.user_id]);
     var SortedTemp = Array.from(Booklist).sort();
     Booklist = new Set(SortedTemp);
     console.log(Booklist);
     req.session.Bookdata = Books;
     req.session.total = Books.length;
     req.session.BookLetters = Booklist;
+    req.session.cart = cart;
     req.session.page = "Library";
     return res.render('library.ejs', { session: req.session, message, convert });
 }
@@ -177,6 +179,31 @@ let SendRequest = async (req, res) =>{
     req.session.cart = [];
     res.redirect('/library');
 }
+
+let AcceptRequest = async (req, res) =>{
+    var [request] = await pool.execute('select * from request where request_id = ?', [req.params._id]);
+    var Books = JSON.parse(request[0].request_desc);
+    for(var item = 0; item < Books.length; item++)
+    {
+        await pool.execute('delete from cart where user_id = ? and book_id = ?', [request[0].user_id, Books[item].book_id]);
+        await pool.execute('update books set available = 0 where book_id = ?', [Books[item].book_id]);
+        await pool.execute('insert into borrow (user_id, book_id, borrow_date, return_date) values (?, ?, current_date(), date_add(current_date(), INTERVAL 7 DAY))', [request[0].user_id, Books[item].book_id]);
+    }
+
+    await pool.execute('delete from request where request_id = ?', [req.params._id]);
+    res.redirect('/requests');
+}
+
+let DeclineRequest = async (req, res) =>{
+    var [request] = await pool.execute('select * from request where request_id = ?', [req.params._id]);
+    var Books = JSON.parse(request[0].request_desc);
+    for(var item = 0; item < Books.length; item++)
+    {
+        await pool.execute('update cart set pending = 0 where user_id = ? and book_id = ?', [request[0].user_id, Books[item].book_id]);
+    }
+    await pool.execute('delete from request where request_id = ?', [req.params._id]);
+    res.redirect('/requests');
+}
 module.exports = {
     getLibraryPage,
     getAddBookPage,
@@ -196,5 +223,7 @@ module.exports = {
     Logout,
     convert,
     RemoveFromCart,
-    SendRequest
+    SendRequest,
+    AcceptRequest,
+    DeclineRequest
 }
