@@ -73,5 +73,6 @@ router.post('/change-theme', libraryController.changeTheme);
 router.post('/change-email', libraryController.changeEmail);
 router.get('/logout', libraryController.Logout);
 router.get('/cart/remove/:_id', libraryController.RemoveFromCart);
+router.post('/cart/submit', libraryController.SendRequest);
 
 module.exports = router;

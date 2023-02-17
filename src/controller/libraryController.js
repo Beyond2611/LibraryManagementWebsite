@@ -120,7 +120,8 @@ let AddBook = async(req, res) => {
 // Requests Page
 let getRequestsPage = async(req, res) => {
     req.session.page = "Requests";
-    return res.render("requests.ejs", { session: req.session });
+    var [Requests] = await pool.execute('select * from request');
+    return res.render("requests.ejs", { session: req.session, Requests });
 }
 
 // Setting Page
@@ -165,6 +166,17 @@ let RemoveFromCart = async (req, res) =>{
     res.redirect("/library");
 }
 
+let SendRequest = async (req, res) =>{
+    var StringifyObj = JSON.stringify(req.session.cart);
+    console.log(StringifyObj);
+    /*var ok = JSON.parse(StringifyObj);
+    console.log(ok);*/
+    var request_id = Math.random().toString(36).slice(2, 8);
+    await pool.execute('insert into request (request_id, user_id, request_desc) values(?,?,?)', [request_id, req.session.user_id, StringifyObj]);
+    await pool.execute('update cart set pending = 1 where user_id = ?', [req.session.user_id]);
+    req.session.cart = [];
+    res.redirect('/library');
+}
 module.exports = {
     getLibraryPage,
     getAddBookPage,
@@ -183,5 +195,6 @@ module.exports = {
     changeEmail,
     Logout,
     convert,
-    RemoveFromCart
+    RemoveFromCart,
+    SendRequest
 }
