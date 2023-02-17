@@ -74,5 +74,6 @@ router.post('/change-email', libraryController.changeEmail);
 router.get('/logout', libraryController.Logout);
 router.get('/cart/remove/:_id', libraryController.RemoveFromCart);
 router.post('/cart/submit', libraryController.SendRequest);
-
+router.post('/requests/update/:_id', libraryController.AcceptRequest);
+router.post('/requests/delete/:_id', libraryController.DeclineRequest);
 module.exports = router;
