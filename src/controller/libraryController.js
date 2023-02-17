@@ -87,6 +87,12 @@ let getSearchedMyCollectionPage = async(req, res) => {
 let getProfile = async(req, res) => {
     var message = req.flash('message');
     req.session.page = "Profile";
+    var [overdueBook] = await pool.execute('select b.book_id, b.book_title , b.author , b.cover, (abs(datediff(curdate(), br.return_date))) as RemainingDate from borrow as br join books as b on br.book_id = b.book_id where datediff(curdate(), br.return_date) > 0 and br.user_id = ?', [req.session.user_id]);
+    var [dueBook] = await pool.execute('select b.book_id, b.book_title , b.author , b.cover, datediff(br.return_date, curdate()) from borrow as br join books as b on br.book_id = b.book_id where datediff(br.return_date, curdate())  >= 0 and datediff(br.return_date, curdate()) <= 3 and br.user_id = ?', [req.session.user_id]);
+    req.session.dueBook = dueBook;
+    req.session.overdueBook = overdueBook;
+    console.log(dueBook);
+    console.log(overdueBook);
     return res.render('profile.ejs', { session: req.session, message });
 }
 
