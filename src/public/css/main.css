@@ -1366,6 +1366,7 @@ textarea {
     display: flex;
     align-items: center;
     height: 85px;
+    margin-bottom: 14px;
 }
 
 .acc-book .acc-book-num {
@@ -1376,7 +1377,7 @@ textarea {
 }
 
 .acc-book .acc-book-img img {
-    width: 60px;
+    width: 70px;
     height: auto;
     flex: 1;
 }
@@ -1385,103 +1386,13 @@ textarea {
     flex: 19;
 }
 
-.acc-book .wrapper {
-    flex: 9;
-}
-
 .wrapper {
     display: flex;
-    height: 30px;
-    width: 50px;
-    align-items: center;
-    justify-content: space-evenly;
-    border-radius: 5px;
 }
 
-.wrapper .option {
-    background: var(--input-text-background);
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    margin: 5px 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    padding: 0 5px;
-    border: 1px solid var(--text-icon-nav);
-    transition: all 0.3s ease;
-}
-
-.wrapper .option .dot {
-    height: 20px;
-    width: 20px;
-    background: white;
-    border-radius: 50%;
-    position: relative;
-}
-
-.wrapper .option .dot.dot-accept::before {
-    position: absolute;
-    content: "";
-    top: 4px;
-    left: 4px;
-    width: 12px;
-    height: 12px;
-    background: var(--bs-success);
-    border-radius: 50%;
-    opacity: 0;
-    transform: scale(1.5);
-    transition: all 0.3s ease;
-}
-
-.wrapper .option .dot.dot-decline::before {
-    position: absolute;
-    content: "";
-    top: 4px;
-    left: 4px;
-    width: 12px;
-    height: 12px;
-    background: var(--bs-danger);
-    border-radius: 50%;
-    opacity: 0;
-    transform: scale(1.5);
-    transition: all 0.3s ease;
-}
-
-input[type="radio"] {
-    display: none;
-}
-
-#option-1:checked:checked~.option-1 {
-    border-color: var(--bs-success);
-    background: var(--bs-success);
-}
-
-#option-2:checked:checked~.option-2 {
-    border-color: var(--bs-danger);
-    background: var(--bs-danger);
-}
-
-#option-1:checked:checked~.option-1 .dot,
-#option-2:checked:checked~.option-2 .dot {
-    background: #fff;
-}
-
-#option-1:checked:checked~.option-1 .dot::before,
-#option-2:checked:checked~.option-2 .dot::before {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.wrapper .option span {
-    font-size: 14px;
-    color: var(--text-icon-nav);
-}
-
-#option-1:checked:checked~.option-1 span,
-#option-2:checked:checked~.option-2 span {
-    color: #fff;
+.wrapper input[type="submit"] {
+    width: 36%;
+    margin-left: 2px;
 }
 
 .acc-book-item-info .acc-book-item-title {
