@@ -1509,7 +1509,7 @@ input[type="radio"] {
 /******** Success Notification ********/
 
 .success-notification {
-    position: absolute;
+    position: fixed;
     width: 400px;
     margin-top: 15px;
     margin-left: 43%;
@@ -1626,6 +1626,7 @@ input[type="radio"] {
     justify-content: center;
     margin-bottom: 10px;
     cursor: pointer;
+    font-size: 20px;
 }
 
 .basket-logo:hover {

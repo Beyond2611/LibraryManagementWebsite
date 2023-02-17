@@ -281,4 +281,7 @@ input[type="text"] {
     .form-login form a:hover {
         color: rgb(248, 170, 170);
     }
+    .login-closebtn {
+        transform: translate(-20px, 60px);
+    }
 }
