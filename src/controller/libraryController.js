@@ -2,6 +2,15 @@ import pool from '../configs/connectDB';
 const { check, validationResult } = require('express-validator');
 const books = require('../public/js/book');
 
+function RemoveBookFromCart(Books, id)
+{
+    console.log(1);
+    console.log(Books);
+    pool.execute('delete from cart where user_id = ? and book_id = ?', [Books[id].user_id, Books[id].book_id]);
+    Books.splice(id, 1);
+    console.log(Books);
+    window.location.replace("/library");
+}
 function convert(str) {
     str = str.replaceAll("à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ", "a");
     str = str.replaceAll("è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ", "e");
@@ -150,6 +159,12 @@ let Logout = (req, res) => {
     res.redirect('/');
 }
 
+let RemoveFromCart = async (req, res) =>{
+    pool.execute('delete from cart where user_id = ? and book_id = ?', [req.session.cart[req.params._id].user_id, req.session.cart[req.params._id].book_id]);
+    req.session.cart.splice(req.params._id, 1);
+    res.redirect("/library");
+}
+
 module.exports = {
     getLibraryPage,
     getAddBookPage,
@@ -167,5 +182,6 @@ module.exports = {
     changeTheme,
     changeEmail,
     Logout,
-    convert
+    convert,
+    RemoveFromCart
 }

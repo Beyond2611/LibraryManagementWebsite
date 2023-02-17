@@ -26,10 +26,13 @@ let getBookInfo = async(req, res) => {
     var message = req.flash('message');
     var [BookInfo] = await pool.execute('select * from books where book_id = ?', [req.params.book_id]);
     var [Borrow] = await pool.execute('select * from borrow where book_id = ? and user_id = ?', [req.params.book_id, req.session.user_id]);
+    console.log(Borrow);
     var [Rating] = await pool.execute('select COALESCE(round(AVG(point), 1),0) as Avg from rating where book_id = ?', [req.params.book_id]);
     var Rate = Rating[0].Avg;
+    var [BookAdded] = await pool.execute('select * from cart join books on cart.book_id = books.book_id where user_id = ? and cart.book_id = ?', [req.session.user_id, req.params.book_id]);
+    var inCart = (BookAdded.length == 1);
     console.log(Rating);
-    return res.render("book.ejs", { session: req.session, BookInfo, Rate, Borrow, message });
+    return res.render("book.ejs", { session: req.session, BookInfo, Rate, Borrow, message, inCart });
 }
 
 // Rating
@@ -74,6 +77,15 @@ let Edit = async(req, res) => {
     req.flash('message', 'Edit book successfully');
     res.redirect('/book/' + req.params._id);
 }
+let addBookToCart = async (req, res) =>{
+    await pool.execute('insert into cart (user_id, book_id) values(?, ?)', [req.session.user_id, req.params._id]);
+    console.log(1);
+    var [BookAdded] = await pool.execute('select * from cart join books on cart.book_id = books.book_id where user_id = ? and cart.book_id = ?', [req.session.user_id, req.params._id]);
+    req.session.cart.push(BookAdded[0]);
+
+    req.flash('message', 'Book added to cart');
+    res.redirect('/book/' + req.params._id);
+}
 let Borrow = async(req, res) => {
     await pool.execute('update books set available = 0 where book_id = ?', [req.params._id]);
     await pool.execute('insert into borrow (user_id, book_id, date, return_date) values (?, ?, current_date(), date_add(current_date(), INTERVAL 7 DAY))', [req.session.user_id, req.params._id]);
@@ -94,5 +106,6 @@ module.exports = {
     Borrow,
     Return,
     Edit,
-    convert
+    convert,
+    addBookToCart
 }

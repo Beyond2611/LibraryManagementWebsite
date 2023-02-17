@@ -72,5 +72,6 @@ router.get('/leaderboard', libraryController.getLeaderBoardPage);
 router.post('/change-theme', libraryController.changeTheme);
 router.post('/change-email', libraryController.changeEmail);
 router.get('/logout', libraryController.Logout);
+router.get('/cart/remove/:_id', libraryController.RemoveFromCart);
 
 module.exports = router;

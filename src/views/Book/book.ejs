@@ -68,7 +68,7 @@
                                 </li>
                                 <li>
                                     <div class="book-cover-buttons">
-                                        <% if(BookInfo[0].available == 1 && Borrow.length == 0) { %>
+                                        <% if(BookInfo[0].available == 1 && Borrow.length == 0 && inCart == 0) { %>
                                             <button onclick="Overlay('borrow')"> Borrow </button>
                                             <% } else if(Borrow.length){ %>
                                                 <button onclick="Return(<%=BookInfo[0].book_id%>)"> Return </button>

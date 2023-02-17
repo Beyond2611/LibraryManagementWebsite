@@ -80,6 +80,10 @@ function Borrow(_id) {
 function Return(_id) {
     window.location.replace("/return/" + _id);
 }
+
+function RemoveFromCart(_id) {
+    window.location.replace("/cart/remove/" + _id);
+}
 var accordion_header = document.getElementsByClassName("accordion-item-header");
 for (var i = 0; i < accordion_header.length; i++) {
     accordion_header[i].addEventListener("click", function() {
