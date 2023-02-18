@@ -244,6 +244,54 @@ input[type="file"]::-webkit-file-upload-button {
     border: 1px solid var(--accordion-border);
 }
 
+input[type=checkbox] {
+    position: relative;
+    border: 2px solid var(--text-icon-nav);
+    border-radius: 2px;
+    background: none;
+    cursor: pointer;
+    line-height: 0;
+    margin: 0 .6em 0 0;
+    outline: 0;
+    margin-left: 4px;
+    margin-bottom: 6px;
+    padding: 0 !important;
+    vertical-align: text-top;
+    height: 20px;
+    width: 20px;
+    -webkit-appearance: none;
+    opacity: .5;
+}
+
+input[type=checkbox]:hover {
+    opacity: 1;
+}
+
+input[type=checkbox]:checked {
+    background-color: var(--container-background);
+    opacity: 1;
+}
+
+input[type=checkbox]:before {
+    content: '';
+    position: absolute;
+    right: 50%;
+    top: 50%;
+    width: 4px;
+    height: 10px;
+    border: solid 1px var(--background-color-body-accordion);
+    border-width: 0 2px 2px 0;
+    margin: -1px -1px 0 -1px;
+    transform: rotate(45deg) translate(-50%, -50%);
+    z-index: 2;
+}
+
+input[type=checkbox]:checked:before {
+    border: solid 1px var(--text-icon-nav);
+    border-width: 0 2px 2px 0;
+    margin: -1px -1px 0 -1px;
+}
+
 
 /* Navigation Bar */
 
@@ -295,6 +343,16 @@ input[type="file"]::-webkit-file-upload-button {
     margin-top: 1px;
 }
 
+.navigation-bar .list-option li p {
+    display: flex;
+}
+
+.navigation-bar .list-option li p i {
+    display: block;
+    font-size: 1em;
+    transform: translate(7.5px, -1px);
+}
+
 .navigation-bar .list-option .inactive:hover {
     background: var(--background-color-2);
     transition: all ease-in-out 0.2s;
@@ -313,6 +371,10 @@ input[type="file"]::-webkit-file-upload-button {
     animation: pop_out 0.2s ease-in-out;
 }
 
+.navigation-bar .list-option .inactive:hover p i {
+    animation: none;
+}
+
 .navigation-bar .list-option .active i {
     color: var(--text-icon-nav);
     display: inline-block;
@@ -321,6 +383,10 @@ input[type="file"]::-webkit-file-upload-button {
 
 .navigation-bar .list-option .active p {
     color: var(--text-color);
+}
+
+.navigation-bar .list-option .active p i {
+    margin-left: 4px;
 }
 
 .navigation-bar .list-option .active {
@@ -1386,13 +1452,20 @@ textarea {
     flex: 19;
 }
 
+.acc-book .return {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .wrapper {
     display: flex;
 }
 
 .wrapper input[type="submit"] {
     width: 36%;
-    margin-left: 2px;
 }
 
 .acc-book-item-info .acc-book-item-title {
@@ -1514,6 +1587,7 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .scroll-top:hover {
@@ -1671,5 +1745,11 @@ textarea {
 }
 
 .requests input[type="submit"] {
-    transform: translate(90px, 10px);
+    transform: translate(38%, 10px);
+}
+
+.return-book input[type="submit"] {
+    margin-left: 7%;
+    margin-top: 10px;
+    margin-bottom: 40px;
 }

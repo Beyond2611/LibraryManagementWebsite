@@ -76,4 +76,6 @@ router.get('/cart/remove/:_id', libraryController.RemoveFromCart);
 router.post('/cart/submit', libraryController.SendRequest);
 router.post('/requests/update/:_id', libraryController.AcceptRequest);
 router.post('/requests/delete/:_id', libraryController.DeclineRequest);
+router.get('/return', libraryController.getReturnBooksPage);
+router.post('/return', libraryController.ReturnBooks);
 module.exports = router;

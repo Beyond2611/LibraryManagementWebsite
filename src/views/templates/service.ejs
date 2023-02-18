@@ -2,11 +2,13 @@
 <div class="service">
     <div class="basket-logo">
         <i class="fa-solid fa-basket-shopping"></i>
+        <% if(session.cart.length){ %>
         <div class="num-books"> <%=session.cart.length%>  </div>
+        <% } %>
     </div>
     <div class="basket-content">
         <div class="basket-header">
-            <p> There are <%= session.cart.length %> books in the basket </p>
+            <p> Number of books in the basket: <%= session.cart.length %>  </p>
         </div>
         <div class="book-item-list">
             <%for(var _id = 0; _id < session.cart.length; _id++){%>
@@ -31,7 +33,7 @@
             <input type="submit" value="Send request">
         </form>
     </div>
-    <div class="scroll-top">
-        <i onclick="window.scrollTo(0,0)" class="fa-solid fa-chevron-up"></i>
+    <div class="scroll-top" onclick="window.scrollTo(0,0)">
+        <i class="fa-solid fa-chevron-up"></i>
     </div>
 </div>

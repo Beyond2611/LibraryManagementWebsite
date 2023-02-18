@@ -46,10 +46,27 @@
                             <li class="inactive">
                          <% }%> 
                          <i class="fa-solid fa-list-check"></i>
-                            <p>Requests</p>
+                            <p>Requests
+                                <% if(session.request.length){ %>
+                                    <i class="fa-solid fa-question"></i>
+                                 <% } %>
+                            </p>
+                            
                         </li>
                     </a>
                     <%}%>
+                    <%if(session.perm[0].manage_book){%>
+                        <a href="/return">
+                            <% if(session.page=="Return Books"){ %>
+                                <li class="active">
+                             <% }else { %>
+                                <li class="inactive">
+                             <% }%> 
+                             <i class="fa-solid fa-list-check"></i>
+                                <p>Return Books</p>
+                            </li>
+                        </a>
+                        <%}%>
                     <a href="/leaderboard">
                         <% if(session.page=="Leaderboard"){ %>
                             <li class="active">

@@ -2,8 +2,7 @@ import pool from '../configs/connectDB';
 const { check, validationResult } = require('express-validator');
 const books = require('../public/js/book');
 
-function RemoveBookFromCart(Books, id)
-{
+function RemoveBookFromCart(Books, id) {
     console.log(1);
     console.log(Books);
     pool.execute('delete from cart where user_id = ? and book_id = ?', [Books[id].user_id, Books[id].book_id]);
@@ -11,6 +10,7 @@ function RemoveBookFromCart(Books, id)
     console.log(Books);
     window.location.replace("/library");
 }
+
 function convert(str) {
     str = str.replaceAll("à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ", "a");
     str = str.replaceAll("è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ", "e");
@@ -32,6 +32,7 @@ function convert(str) {
 // Library Page
 let getLibraryPage = async(req, res) => {
     var [Books] = await pool.execute('select * from books');
+    var [Request] = await pool.execute('select * from request');
     var message = req.flash('message');
     let Booklist = new Set();
     for (var i = 0; i < Books.length; i++) {
@@ -41,6 +42,7 @@ let getLibraryPage = async(req, res) => {
     var SortedTemp = Array.from(Booklist).sort();
     Booklist = new Set(SortedTemp);
     console.log(Booklist);
+    req.session.request = Request;
     req.session.Bookdata = Books;
     req.session.total = Books.length;
     req.session.BookLetters = Booklist;
@@ -125,13 +127,6 @@ let AddBook = async(req, res) => {
     res.redirect('/add-book');
 }
 
-// Requests Page
-let getRequestsPage = async(req, res) => {
-    req.session.page = "Requests";
-    var [Requests] = await pool.execute('select * from request');
-    return res.render("requests.ejs", { session: req.session, Requests });
-}
-
 // Setting Page
 let getSettingPage = async(req, res) => {
     req.session.page = "Setting";
@@ -168,13 +163,20 @@ let Logout = (req, res) => {
     res.redirect('/');
 }
 
-let RemoveFromCart = async (req, res) =>{
+let RemoveFromCart = async(req, res) => {
     pool.execute('delete from cart where user_id = ? and book_id = ?', [req.session.cart[req.params._id].user_id, req.session.cart[req.params._id].book_id]);
     req.session.cart.splice(req.params._id, 1);
     res.redirect("/library");
 }
 
-let SendRequest = async (req, res) =>{
+/* Request Handling */
+let getRequestsPage = async(req, res) => {
+    req.session.page = "Requests";
+    var [Requests] = await pool.execute('select * from request');
+    return res.render("requests.ejs", { session: req.session, Requests });
+}
+
+let SendRequest = async(req, res) => {
     var StringifyObj = JSON.stringify(req.session.cart);
     console.log(StringifyObj);
     /*var ok = JSON.parse(StringifyObj);
@@ -186,11 +188,10 @@ let SendRequest = async (req, res) =>{
     res.redirect('/library');
 }
 
-let AcceptRequest = async (req, res) =>{
+let AcceptRequest = async(req, res) => {
     var [request] = await pool.execute('select * from request where request_id = ?', [req.params._id]);
     var Books = JSON.parse(request[0].request_desc);
-    for(var item = 0; item < Books.length; item++)
-    {
+    for (var item = 0; item < Books.length; item++) {
         await pool.execute('delete from cart where user_id = ? and book_id = ?', [request[0].user_id, Books[item].book_id]);
         await pool.execute('update books set available = 0 where book_id = ?', [Books[item].book_id]);
         await pool.execute('insert into borrow (user_id, book_id, borrow_date, return_date) values (?, ?, current_date(), date_add(current_date(), INTERVAL 7 DAY))', [request[0].user_id, Books[item].book_id]);
@@ -200,16 +201,41 @@ let AcceptRequest = async (req, res) =>{
     res.redirect('/requests');
 }
 
-let DeclineRequest = async (req, res) =>{
+let DeclineRequest = async(req, res) => {
     var [request] = await pool.execute('select * from request where request_id = ?', [req.params._id]);
     var Books = JSON.parse(request[0].request_desc);
-    for(var item = 0; item < Books.length; item++)
-    {
+    for (var item = 0; item < Books.length; item++) {
         await pool.execute('update cart set pending = 0 where user_id = ? and book_id = ?', [request[0].user_id, Books[item].book_id]);
     }
     await pool.execute('delete from request where request_id = ?', [req.params._id]);
     res.redirect('/requests');
 }
+
+/* Return Book Handling */
+let getReturnBooksPage = async(req, res) => {
+    req.session.page = "Return Books";
+    var message = req.flash('message');
+    var [Borrow] = await pool.execute('select * from borrow br join books b on br.book_id = b.book_id ')
+    var BookList = new Map();
+    for (var i = 0; i < Borrow.length; i++) {
+        BookList.set(Borrow[i].user_id, []);
+    }
+    for (var i = 0; i < Borrow.length; i++) {
+        BookList.set(Borrow[i].user_id, [...BookList.get(Borrow[i].user_id), { book_id: Borrow[i].book_id, book_title: Borrow[i].book_title, book_author: Borrow[i].author, book_cover: Borrow[i].cover }]);
+    }
+    return res.render("return.ejs", { session: req.session, BookList, message });
+}
+
+let ReturnBooks = async(req, res) => {
+    var Book = req.body.books;
+    for (var i = 0; i < Book.length; i++) {
+        await pool.execute('update books set available = 1 where book_id = ?', [Book[i]]);
+        await pool.execute('delete from borrow where book_id = ?', [Book[i]]);
+    }
+    req.flash('message', 'Return book successfully');
+    res.redirect('/return');
+}
+
 module.exports = {
     getLibraryPage,
     getAddBookPage,
@@ -224,6 +250,7 @@ module.exports = {
     getLeaderBoardPage,
     getSearchedMyCollectionPage,
     getRequestsPage,
+    getReturnBooksPage,
     changeTheme,
     changeEmail,
     Logout,
@@ -231,5 +258,6 @@ module.exports = {
     RemoveFromCart,
     SendRequest,
     AcceptRequest,
-    DeclineRequest
+    DeclineRequest,
+    ReturnBooks
 }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> Libib | Requests </title>
+    <%- include('../templates/library-stylesheet.ejs') %>
+</head>
+
+<body>
+    <%- include('../templates/success.ejs') %>
+        <div class="user-interface">
+            <% const page="support" %>
+                <%- include('../templates/nav-bar.ejs') %>
+                    <div class="container">
+                        <%- include('../templates/header.ejs') %>
+                            <form class="return-book" method="POST" action="/return">
+                                <% for(let[user_id,books] of BookList) { %>
+                                    <div class="accordion">
+
+                                        <div class="accordion-item">
+                                            <div class="accordion-item-header">
+                                                ID
+                                                <%= user_id %> :
+                                                    <%=books.length %> Books
+                                            </div>
+                                            <div class="accordion-item-body">
+                                                <% for(var i = 0 ; i < books.length ; i++) {%>
+                                                    <div class="acc-book">
+                                                        <div class="acc-book-num">
+                                                            <%= i+1 %>
+                                                        </div>
+                                                        <div class="acc-book-img">
+                                                            <img src="<%= books[i].book_cover %>">
+                                                        </div>
+                                                        <div class="acc-book-item-info">
+                                                            <div class="acc-book-item-title">
+                                                                <%= books[i].book_title %>
+                                                            </div>
+                                                            <div class="acc-book-item-author">
+                                                                <%= books[i].book_author %>
+                                                            </div>
+                                                        </div>
+                                                        <div class="return">
+                                                            <input type="checkbox" name="books[]" value="<%= books[i].book_id %>">
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <% } %>
+                                        <input type="submit" value="Update">
+                            </form>
+
+                    </div>
+
+</body>
+<%- include('../templates/change-theme.ejs') %>
+
+</html>
