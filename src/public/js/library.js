@@ -1,6 +1,5 @@
 let overlay_mode = 0;
 
-
 function currentYPosition() {
     if (self.pageYOffset) return self.pageYOffset;
     if (document.documentElement && document.documentElement.scrollTop)
@@ -108,8 +107,9 @@ for (var i = 0; i < bell.length; i++) {
     bell[i].addEventListener("click", function() {
         this.style.animation = "none";
         var notification_content = this.nextElementSibling
-        notification_content.classList.toggle("active");
         this.classList.toggle("active");
+        notification_content.classList.toggle("active");
+
     });
 }
 var basket = document.getElementsByClassName("basket-logo");
@@ -119,4 +119,9 @@ for (var i = 0; i < basket.length; i++) {
         basket_content.classList.toggle("active");
         this.classList.toggle("active");
     });
+}
+
+function SlideShow() {
+    var slide = document.getElementsByClassName("slide-show");
+    slide[0].classList.toggle("active");
 }

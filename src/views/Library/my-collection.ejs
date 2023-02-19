@@ -9,11 +9,12 @@
 <body>
     <div class="user-interface">
         <%- include('../templates/nav-bar.ejs') %>
-
             <div class="container">
-                <%- include('../templates/header-search.ejs') %>
-                    <%- include('../templates/book-show.ejs') %>
-                        <%- include('../templates/service.ejs') %>
+                <%- include('../templates/slideshow.ejs') %>
+                    <%- include('../templates/header-search.ejs') %>
+                        <button class="check-btn" onclick="SlideShow()"> Check books's expiry date</button>
+                        <%- include('../templates/book-show.ejs') %>
+                            <%- include('../templates/service.ejs') %>
             </div>
     </div>
     <%- include('../templates/overlay.ejs') %>

@@ -1,0 +1,61 @@
+<div class="slide-show"> 
+    <div class="slide-header">
+        <div class="slide-header-title"> Check Expiry Date </div>
+        <i class="fa-regular fa-circle-xmark" onclick="SlideShow()"></i>
+    </div> 
+    <div class="slide-content">
+        <div class="slide-title"> 
+            Overdue books
+        </div> 
+        <div class="slide-list">
+            <% for(var i = 0 ; i < session.overdueBook.length ; i++) { %> 
+            <a class="slide-book" href="/book/<%= session.overdueBook[i].book_id%>">
+                <div class="slide-book-num">
+                    <%= i+1 %>
+                </div>
+                <div class="slide-book-img">
+                    <img src="<%=session.overdueBook[i].cover %>">
+                </div>
+                <div class="slide-book-info">
+                    <div class="slide-book-title">
+                        <%=session.overdueBook[i].book_title %>
+                    </div>
+                    <div class="slide-book-author">
+                        <%=session.overdueBook[i].author %>
+                    </div>
+                </div>
+                <div class="slide-book-expiration">
+                    <%=session.overdueBook[i].OverDate %>
+                </div>
+            </a>
+            <% } %>  
+        </div> 
+        <div class="slide-title"> 
+            Due books
+        </div> 
+        <div class="slide-list">
+            <% for(var i = 0 ; i < session.dueBook.length ; i++) { %> 
+            <a class="slide-book" href="/book/<%= session.dueBook[i].book_id%>">
+                <div class="slide-book-num">
+                    <%= i+1 %>
+                </div>
+                <div class="slide-book-img">
+                    <img src="<%=session.dueBook[i].cover %>">
+                </div>
+                <div class="slide-book-info">
+                    <div class="slide-book-title">
+                        <%=session.dueBook[i].book_title %>
+                    </div>
+                    <div class="slide-book-author">
+                        <%=session.dueBook[i].author %>
+                    </div>
+                </div>
+                <div class="slide-book-expiration">
+                    <%=session.dueBook[i].RemainingDays %> days
+                </div>
+            </a>
+            <% } %>  
+        </div> 
+       
+    </div> 
+</div> 

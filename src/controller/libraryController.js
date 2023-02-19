@@ -41,7 +41,6 @@ let getLibraryPage = async(req, res) => {
     var [cart] = await pool.execute('select user_id, cart.book_id, books.book_title, books.author, books.cover from cart join books on cart.book_id = books.book_id where user_id = ? and pending = 0', [req.session.user_id]);
     var SortedTemp = Array.from(Booklist).sort();
     Booklist = new Set(SortedTemp);
-    console.log(Booklist);
     req.session.request = Request;
     req.session.Bookdata = Books;
     req.session.total = Books.length;
@@ -70,7 +69,10 @@ let getMyCollectionPage = async(req, res) => {
     }
     var SortedTemp = Array.from(Booklist).sort();
     Booklist = new Set(SortedTemp);
-    console.log(Booklist);
+    var [overdueBook] = await pool.execute('select b.book_id, b.book_title , b.author , b.cover, (abs(datediff(curdate(), br.return_date))) as OverDate from borrow as br join books as b on br.book_id = b.book_id where datediff(curdate(), br.return_date) > 0 and br.user_id = ? order by b.book_title', [req.session.user_id]);
+    var [dueBook] = await pool.execute('select b.book_id, b.book_title , b.author , b.cover, datediff(br.return_date, curdate()) as RemainingDays from borrow as br join books as b on br.book_id = b.book_id where datediff(br.return_date, curdate()) >= 0 and br.user_id = ? order by RemainingDays , b.book_title ', [req.session.user_id]);
+    req.session.dueBook = dueBook;
+    req.session.overdueBook = overdueBook;
     req.session.Bookdata = Books;
     req.session.BookLetters = Booklist;
     req.session.page = "my-collection";
@@ -91,12 +93,6 @@ let getSearchedMyCollectionPage = async(req, res) => {
 let getProfile = async(req, res) => {
     var message = req.flash('message');
     req.session.page = "Profile";
-    var [overdueBook] = await pool.execute('select b.book_id, b.book_title , b.author , b.cover, (abs(datediff(curdate(), br.return_date))) as RemainingDate from borrow as br join books as b on br.book_id = b.book_id where datediff(curdate(), br.return_date) > 0 and br.user_id = ?', [req.session.user_id]);
-    var [dueBook] = await pool.execute('select b.book_id, b.book_title , b.author , b.cover, datediff(br.return_date, curdate()) from borrow as br join books as b on br.book_id = b.book_id where datediff(br.return_date, curdate())  >= 0 and datediff(br.return_date, curdate()) <= 3 and br.user_id = ?', [req.session.user_id]);
-    req.session.dueBook = dueBook;
-    req.session.overdueBook = overdueBook;
-    console.log(dueBook);
-    console.log(overdueBook);
     return res.render('profile.ejs', { session: req.session, message });
 }
 
