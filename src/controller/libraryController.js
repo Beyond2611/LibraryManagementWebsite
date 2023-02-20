@@ -41,6 +41,15 @@ let getLibraryPage = async(req, res) => {
     var [cart] = await pool.execute('select user_id, cart.book_id, books.book_title, books.author, books.cover from cart join books on cart.book_id = books.book_id where user_id = ? and pending = 0', [req.session.user_id]);
     var SortedTemp = Array.from(Booklist).sort();
     Booklist = new Set(SortedTemp);
+    var [notification] = await pool.execute('select (case when l.query = 1 then concat("Borrow book ", b.book_title, " successfully") else concat("Return book ", b.book_title, " successfully") end) as noti, l.day as date_add from log as l join books as b on l.book_id = b.book_id ');
+    console.log(notification);
+    for (var i = 0; i < notification.length; ++ i){
+        var timeStamp = Date.parse(notification[i].date_add);
+        //console.log(timeStamp);
+        const date = new Date(timeStamp);
+        notification[i].date_add = date.toLocaleDateString();
+    }
+    req.session.notification = notification;
     req.session.request = Request;
     req.session.Bookdata = Books;
     req.session.total = Books.length;
@@ -150,7 +159,7 @@ let changeTheme = async(req, res) => {
     res.redirect('/setting');
 }
 let changeEmail = async(req, res) => {
-    await pool.execute('update user set email= ? where user_id = ?', [req.body.email, req.session.user_id])
+    await pool.execute('update user set email= ? where user_id = ?', [req.body.email, req.session.user_id]);
     req.flash('message', 'Change email successfully');
     res.redirect('/profile/' + req.session.user_id);
 }
@@ -191,6 +200,7 @@ let AcceptRequest = async(req, res) => {
         await pool.execute('delete from cart where user_id = ? and book_id = ?', [request[0].user_id, Books[item].book_id]);
         await pool.execute('update books set available = 0 where book_id = ?', [Books[item].book_id]);
         await pool.execute('insert into borrow (user_id, book_id, borrow_date, return_date) values (?, ?, current_date(), date_add(current_date(), INTERVAL 7 DAY))', [request[0].user_id, Books[item].book_id]);
+        await pool.execute('insert into log (user_id, book_id, query, day) values (?,?, 1, current_date())', [request[0].user_id, Books[item].book_id]);
     }
 
     await pool.execute('delete from request where request_id = ?', [req.params._id]);
@@ -227,6 +237,7 @@ let ReturnBooks = async(req, res) => {
     for (var i = 0; i < Book.length; i++) {
         await pool.execute('update books set available = 1 where book_id = ?', [Book[i]]);
         await pool.execute('delete from borrow where book_id = ?', [Book[i]]);
+        await pool.execute('insert into log (user_id, book_id, query, day) values (?,?, 2, current_date())', [req.params._id, Book[i]]);
     }
     req.flash('message', 'Return book successfully');
     res.redirect('/return');
@@ -255,5 +266,5 @@ module.exports = {
     SendRequest,
     AcceptRequest,
     DeclineRequest,
-    ReturnBooks
+    ReturnBooks,
 }
