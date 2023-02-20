@@ -30,9 +30,9 @@ let getBookInfo = async(req, res) => {
     var [BookAdded] = await pool.execute('select * from cart join books on cart.book_id = books.book_id where user_id = ? and cart.book_id = ?', [req.session.user_id, req.params.book_id]);
     var inCart = (BookAdded.length == 1);
     for (var item = 0; item < BookInfo.length; item++) {
-        console.log(BookInfo[item].date_add);
+        //console.log(BookInfo[item].date_add);
         var timeStamp = Date.parse(BookInfo[item].date_add);
-        console.log(timeStamp);
+        //console.log(timeStamp);
         const date = new Date(timeStamp);
         BookInfo[item].date_add = date.toLocaleDateString();
     }
