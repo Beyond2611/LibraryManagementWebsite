@@ -145,7 +145,6 @@ let getLeaderBoardPage = async(req, res) => {
 }
 let changeTheme = async(req, res) => {
     req.session.theme = req.body.theme;
-    console.log(req.session.theme);
     req.flash('message', 'Change theme successfully');
     res.redirect('/setting');
 }
