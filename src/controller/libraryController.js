@@ -41,21 +41,27 @@ let getLibraryPage = async(req, res) => {
     var [cart] = await pool.execute('select user_id, cart.book_id, books.book_title, books.author, books.cover from cart join books on cart.book_id = books.book_id where user_id = ? and pending = 0', [req.session.user_id]);
     var SortedTemp = Array.from(Booklist).sort();
     Booklist = new Set(SortedTemp);
-    var [notification] = await pool.execute('select (case when l.query = 1 then concat("Borrow book ", b.book_title, " successfully") else concat("Return book ", b.book_title, " successfully") end) as noti, l.day as date_add from log as l join books as b on l.book_id = b.book_id order by l.day DESC');
-    console.log(notification);
-    for (var i = 0; i < notification.length; ++ i){
+    var [notification] = await pool.execute('select (case when l.query = 1 then concat("Borrow book ", b.book_title, " successfully") when l.query = 2 then concat("Return book ", b.book_title, " successfully") when l.query = 3 then "Your request is being processed. Please wait !" when l.query = 4 then "Your request is accepted" else "Your request is declined . Please reconsider !" end) as noti, l.day as date_add , EXTRACT(HOUR FROM l.day) as hour_add , EXTRACT(MINUTE FROM l.day) as minute_add , l.query as query from log l left join books b on l.book_id = b.book_id order by date_add DESC , hour_add DESC , minute_add DESC');
+    var Notification = new Map();
+    for (var i = 0; i < notification.length; i++) {
         var timeStamp = Date.parse(notification[i].date_add);
         //console.log(timeStamp);
         const date = new Date(timeStamp);
         notification[i].date_add = date.toLocaleDateString();
     }
-    req.session.notification = notification;
+    for (var i = 0; i < notification.length; i++) {
+        Notification.set(notification[i].date_add, []);
+    }
+    for (var i = 0; i < notification.length; i++) {
+        Notification.set(notification[i].date_add, [...Notification.get(notification[i].date_add), { noti: notification[i].noti, date_add: notification[i].date_add, hour_add: notification[i].hour_add, minute_add: notification[i].minute_add, query: notification[i].query }])
+    }
+    req.session.notification = Notification;
     req.session.request = Request;
     req.session.Bookdata = Books;
     req.session.total = Books.length;
     req.session.BookLetters = Booklist;
     req.session.cart = cart;
-    req.session.page = "Library";
+    req.session.page = "library";
     return res.render('library.ejs', { session: req.session, message, convert });
 }
 
@@ -78,9 +84,28 @@ let getMyCollectionPage = async(req, res) => {
     }
     var SortedTemp = Array.from(Booklist).sort();
     Booklist = new Set(SortedTemp);
+    var [cart] = await pool.execute('select user_id, cart.book_id, books.book_title, books.author, books.cover from cart join books on cart.book_id = books.book_id where user_id = ? and pending = 0', [req.session.user_id]);
     var [overdueBook] = await pool.execute('select b.book_id, b.book_title , b.author , b.cover, (abs(datediff(curdate(), br.return_date))) as OverDate from borrow as br join books as b on br.book_id = b.book_id where datediff(curdate(), br.return_date) > 0 and br.user_id = ? order by b.book_title', [req.session.user_id]);
     var [dueBook] = await pool.execute('select b.book_id, b.book_title , b.author , b.cover, datediff(br.return_date, curdate()) as RemainingDays from borrow as br join books as b on br.book_id = b.book_id where datediff(br.return_date, curdate()) >= 0 and br.user_id = ? order by RemainingDays , b.book_title ', [req.session.user_id]);
+    var [Request] = await pool.execute('select * from request');
+    var [notification] = await pool.execute('select (case when l.query = 1 then concat("Borrow book ", b.book_title, " successfully") when l.query = 2 then concat("Return book ", b.book_title, " successfully") when l.query = 3 then "Your request is being processed. Please wait !" when l.query = 4 then "Your request is accepted" else "Your request is declined . Please reconsider !" end) as noti, l.day as date_add , EXTRACT(HOUR FROM l.day) as hour_add , EXTRACT(MINUTE FROM l.day) as minute_add , l.query as query from log l left join books b on l.book_id = b.book_id order by date_add DESC , hour_add DESC , minute_add DESC');
+    var Notification = new Map();
+    for (var i = 0; i < notification.length; i++) {
+        var timeStamp = Date.parse(notification[i].date_add);
+        //console.log(timeStamp);
+        const date = new Date(timeStamp);
+        notification[i].date_add = date.toLocaleDateString();
+    }
+    for (var i = 0; i < notification.length; i++) {
+        Notification.set(notification[i].date_add, []);
+    }
+    for (var i = 0; i < notification.length; i++) {
+        Notification.set(notification[i].date_add, [...Notification.get(notification[i].date_add), { noti: notification[i].noti, date_add: notification[i].date_add, hour_add: notification[i].hour_add, minute_add: notification[i].minute_add, query: notification[i].query }])
+    }
+    req.session.notification = Notification;
+    req.session.request = Request;
     req.session.dueBook = dueBook;
+    req.session.cart = cart;
     req.session.overdueBook = overdueBook;
     req.session.Bookdata = Books;
     req.session.BookLetters = Booklist;
@@ -188,20 +213,21 @@ let SendRequest = async(req, res) => {
     var request_id = Math.random().toString(36).slice(2, 8);
     await pool.execute('insert into request (request_id, user_id, request_desc) values(?,?,?)', [request_id, req.session.user_id, StringifyObj]);
     await pool.execute('update cart set pending = 1 where user_id = ?', [req.session.user_id]);
+    await pool.execute('insert into log(user_id , query , day) values(?,3,now())', [req.session.user_id]);
     req.session.cart = [];
-    res.redirect('/library');
+    res.redirect('/' + req.session.page);
 }
 
 let AcceptRequest = async(req, res) => {
     var [request] = await pool.execute('select * from request where request_id = ?', [req.params._id]);
     var Books = JSON.parse(request[0].request_desc);
+    await pool.execute('insert into log(user_id , query , day) values(?,4,now())', [req.session.user_id]);
     for (var item = 0; item < Books.length; item++) {
         await pool.execute('delete from cart where user_id = ? and book_id = ?', [request[0].user_id, Books[item].book_id]);
         await pool.execute('update books set available = 0 where book_id = ?', [Books[item].book_id]);
         await pool.execute('insert into borrow (user_id, book_id, borrow_date, return_date) values (?, ?, current_date(), date_add(current_date(), INTERVAL 7 DAY))', [request[0].user_id, Books[item].book_id]);
         await pool.execute('insert into log (user_id, book_id, query, day) values (?,?, 1, now())', [request[0].user_id, Books[item].book_id]);
     }
-
     await pool.execute('delete from request where request_id = ?', [req.params._id]);
     res.redirect('/requests');
 }
@@ -209,6 +235,7 @@ let AcceptRequest = async(req, res) => {
 let DeclineRequest = async(req, res) => {
     var [request] = await pool.execute('select * from request where request_id = ?', [req.params._id]);
     var Books = JSON.parse(request[0].request_desc);
+    await pool.execute('insert into log(user_id , query , day) values(?,5,now())', [req.session.user_id]);
     for (var item = 0; item < Books.length; item++) {
         await pool.execute('update cart set pending = 0 where user_id = ? and book_id = ?', [request[0].user_id, Books[item].book_id]);
     }
