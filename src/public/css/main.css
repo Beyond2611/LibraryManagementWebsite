@@ -489,7 +489,7 @@ input[type=checkbox]:checked:before {
 /* Library Header without search  */
 
 .library-title {
-    flex: 5;
+    flex: 6;
     font-size: 18px;
     margin-left: 32px;
     color: var(--text-color-1);
@@ -507,7 +507,6 @@ input[type=checkbox]:checked:before {
     margin-right: 16px;
     margin-top: 2px;
     animation: shaking 1s infinite alternate-reverse;
-    transform-origin: top;
 }
 
 .bell i {
@@ -536,7 +535,7 @@ input[type=checkbox]:checked:before {
 
 .notification-content {
     border-radius: 10px;
-    width: 350px;
+    width: 400px;
     top: 77px;
     right: 16%;
     position: absolute;
@@ -544,6 +543,7 @@ input[type=checkbox]:checked:before {
     height: 0px;
     transform: scaleY(0);
     transition: all 0.2s ease-in-out;
+    background: var(--noti-mess-bg);
 }
 
 .notification-content.active {
@@ -554,7 +554,13 @@ input[type=checkbox]:checked:before {
     transition: all 0.2s ease-in-out;
 }
 
-.notification-content .notification-header {
+.notification-content .notification-body {
+    max-height: 400px;
+    overflow: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+}
+
+.notification-body .notification-header {
     font-size: 18px;
     padding: 20px;
     font-weight: bold;
@@ -564,21 +570,44 @@ input[type=checkbox]:checked:before {
     border-top-right-radius: 10px;
 }
 
-.notification-content .notification-message {
+.notification-body .notification-message {
     font-size: 14px;
     align-items: center;
     color: var(--text-color-2);
     display: flex;
-    padding: 20px;
-    background: var(--noti-mess-bg);
+    padding: 10px 20px 10px 20px;
+}
+
+.notification-body .notification-date {
+    color: var(--text-icon-nav);
+    padding: 10px 20px 5px 0;
+    width: 100px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-bottom: 5px;
+    border-bottom: 2px solid var(--text-icon-nav);
 }
 
 .notification-message .notification-time {
-    flex: 1;
+    flex: 5;
+    color: var(--text-icon-nav);
 }
 
 .notification-message .notification-act {
-    flex: 6;
+    flex: 16;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--text-color-1);
+}
+
+.notification-message i {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    color: var(--text-icon-nav);
 }
 
 .notification-content .view-all {
@@ -1190,7 +1219,7 @@ textarea {
     padding: 20px 20px 5px 0;
     width: 20%;
     margin-left: 20px;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid var(--text-icon-nav);
     margin-bottom: 10px;
 }
 
@@ -1202,11 +1231,25 @@ textarea {
 }
 
 .act-content .act-time {
-    flex: 1;
+    flex: 3;
+    color: var(--text-icon-nav);
 }
 
 .act-content .act-event {
-    flex: 9;
+    flex: 21;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--text-color-1);
+}
+
+.act-content i {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-icon-nav);
 }
 
 
@@ -1777,15 +1820,17 @@ textarea {
     width: 0px;
     position: fixed;
     height: 100%;
-    transition: all 0.4s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
     background: var(--container-background);
     overflow-y: overlay;
-    z-index: 100;
+    z-index: 9999999;
 }
 
 .slide-show.active {
+    opacity: 1;
     width: calc(100% - 230px);
-    transition: all 0.4s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
 .slide-show .slide-header {
@@ -1822,7 +1867,7 @@ textarea {
 }
 
 .slide-content .slide-title {
-    margin-left: 28px;
+    margin-left: 32px;
     padding: 4px;
     margin-right: 9%;
     font-weight: bold;
@@ -1834,7 +1879,7 @@ textarea {
 }
 
 .slide-content .slide-list {
-    margin-left: 28px;
+    margin-left: 32px;
 }
 
 .slide-list .slide-book {
