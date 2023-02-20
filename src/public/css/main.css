@@ -549,14 +549,18 @@ input[type=checkbox]:checked:before {
 .notification-content.active {
     border: 1px solid var(--text-icon-nav);
     height: auto;
-    max-height: 400px;
     transform: scaleY(1);
-    overflow: hidden;
     transform-origin: center;
     transition: all 0.2s ease-in-out;
 }
 
-.notification-content .notification-header {
+.notification-content .notification-body {
+    max-height: 400px;
+    overflow: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+}
+
+.notification-body .notification-header {
     font-size: 18px;
     padding: 20px;
     font-weight: bold;
@@ -566,7 +570,7 @@ input[type=checkbox]:checked:before {
     border-top-right-radius: 10px;
 }
 
-.notification-content .notification-message {
+.notification-body .notification-message {
     font-size: 14px;
     align-items: center;
     color: var(--text-color-2);
@@ -574,7 +578,7 @@ input[type=checkbox]:checked:before {
     padding: 10px 20px 10px 20px;
 }
 
-.notification-content .notification-date {
+.notification-body .notification-date {
     color: var(--text-icon-nav);
     padding: 10px 20px 5px 0;
     width: 100px;
