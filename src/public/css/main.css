@@ -318,6 +318,7 @@ input[type=checkbox]:checked:before {
 .logo i {
     font-size: 2.2em;
     margin-left: 0.2em;
+    margin-top: 1px;
     color: var(--logo-color);
 }
 
@@ -489,7 +490,7 @@ input[type=checkbox]:checked:before {
 /* Library Header without search  */
 
 .library-title {
-    flex: 5;
+    flex: 6;
     font-size: 18px;
     margin-left: 32px;
     color: var(--text-color-1);
@@ -508,6 +509,7 @@ input[type=checkbox]:checked:before {
     margin-top: 2px;
     animation: shaking 1s infinite alternate-reverse;
     transform-origin: top;
+    cursor: pointer;
 }
 
 .bell i {
@@ -515,12 +517,16 @@ input[type=checkbox]:checked:before {
     font-size: 36px;
 }
 
+.bell.active {
+    animation: none;
+}
+
 .num-notification {
     color: white;
     background: red;
     position: absolute;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: bold;
     width: 20px;
     height: 20px;
     border-radius: 20px;
@@ -536,7 +542,7 @@ input[type=checkbox]:checked:before {
 
 .notification-content {
     border-radius: 10px;
-    width: 350px;
+    width: 400px;
     top: 77px;
     right: 16%;
     position: absolute;
@@ -544,6 +550,7 @@ input[type=checkbox]:checked:before {
     height: 0px;
     transform: scaleY(0);
     transition: all 0.2s ease-in-out;
+    background: var(--noti-mess-bg);
 }
 
 .notification-content.active {
@@ -552,6 +559,11 @@ input[type=checkbox]:checked:before {
     transform: scaleY(1);
     transform-origin: center;
     transition: all 0.2s ease-in-out;
+}
+
+.notification-content .notification-body {
+    height: 400px;
+    overflow: hidden;
 }
 
 .notification-content .notification-header {
@@ -564,21 +576,45 @@ input[type=checkbox]:checked:before {
     border-top-right-radius: 10px;
 }
 
-.notification-content .notification-message {
+.notification-body .notification-message {
     font-size: 14px;
     align-items: center;
     color: var(--text-color-2);
     display: flex;
-    padding: 20px;
-    background: var(--noti-mess-bg);
+    padding: 10px 20px 15px 20px;
+}
+
+.notification-body .notification-date {
+    color: var(--text-icon-nav);
+    padding: 10px 20px 5px 0;
+    width: 100px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-bottom: 5px;
+    border-bottom: 2px solid var(--text-icon-nav);
 }
 
 .notification-message .notification-time {
-    flex: 1;
+    flex: 3;
+    color: var(--text-icon-nav);
+    display: flex;
 }
 
 .notification-message .notification-act {
-    flex: 6;
+    flex: 18;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--text-color-1);
+}
+
+.notification-message i {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    color: var(--text-icon-nav);
 }
 
 .notification-content .view-all {
@@ -1188,10 +1224,12 @@ textarea {
 .log-act .act-date {
     color: var(--text-icon-nav);
     padding: 20px 20px 5px 0;
-    width: 20%;
+    width: 15%;
     margin-left: 20px;
-    border-bottom: 1px solid;
+    border-bottom: 2px solid var(--text-icon-nav);
     margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .log-act .act-content {
@@ -1202,11 +1240,26 @@ textarea {
 }
 
 .act-content .act-time {
-    flex: 1;
+    flex: 3;
+    color: var(--text-icon-nav);
+    display: flex;
 }
 
 .act-content .act-event {
-    flex: 9;
+    flex: 25;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--text-color-1);
+}
+
+.act-content i {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-icon-nav);
 }
 
 
@@ -1477,6 +1530,12 @@ textarea {
 
 .wrapper input[type="submit"] {
     width: 36%;
+}
+
+.acc-book-item-info .acc-book-expiration {
+    margin-left: 12px;
+    font-size: 12px;
+    color: var(--text-icon-nav);
 }
 
 .acc-book-item-info .acc-book-item-title {
@@ -1778,12 +1837,14 @@ textarea {
     position: fixed;
     height: 100%;
     transition: all 0.4s ease-in-out;
+    opacity: 0;
     background: var(--container-background);
     overflow-y: overlay;
-    z-index: 100;
+    z-index: 9999999;
 }
 
 .slide-show.active {
+    opacity: 1;
     width: calc(100% - 230px);
     transition: all 0.4s ease-in-out;
 }
@@ -1822,7 +1883,7 @@ textarea {
 }
 
 .slide-content .slide-title {
-    margin-left: 28px;
+    margin-left: 32px;
     padding: 4px;
     margin-right: 9%;
     font-weight: bold;
@@ -1834,7 +1895,7 @@ textarea {
 }
 
 .slide-content .slide-list {
-    margin-left: 28px;
+    margin-left: 32px;
 }
 
 .slide-list .slide-book {

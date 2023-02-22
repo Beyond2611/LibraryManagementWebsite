@@ -105,7 +105,6 @@ for (var i = 0; i < notification_close.length; i++) {
 var bell = document.getElementsByClassName("bell");
 for (var i = 0; i < bell.length; i++) {
     bell[i].addEventListener("click", function() {
-        this.style.animation = "none";
         var notification_content = this.nextElementSibling
         this.classList.toggle("active");
         notification_content.classList.toggle("active");
@@ -116,8 +115,8 @@ var basket = document.getElementsByClassName("basket-logo");
 for (var i = 0; i < basket.length; i++) {
     basket[i].addEventListener("click", function() {
         var basket_content = this.nextElementSibling;
-        basket_content.classList.toggle("active");
         this.classList.toggle("active");
+        basket_content.classList.toggle("active");
     });
 }
 

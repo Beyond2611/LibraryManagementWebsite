@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title> Libib | Requests </title>
+    <title> WTW | Return Books </title>
     <%- include('../templates/library-stylesheet.ejs') %>
 </head>
 
@@ -16,7 +16,6 @@
                             <form class="return-book" method="POST" action="/return">
                                 <% for(let[user_id,books] of BookList) { %>
                                     <div class="accordion">
-
                                         <div class="accordion-item">
                                             <div class="accordion-item-header">
                                                 ID
@@ -33,12 +32,17 @@
                                                             <img src="<%= books[i].book_cover %>">
                                                         </div>
                                                         <div class="acc-book-item-info">
-                                                            <div class="acc-book-item-title">
-                                                                <%= books[i].book_title %>
-                                                            </div>
-                                                            <div class="acc-book-item-author">
-                                                                <%= books[i].book_author %>
-                                                            </div>
+                                                            <% if(books.day_left < 0) { %>
+                                                                <div class="acc-book-expiration">
+                                                                    *Overdue
+                                                                </div>
+                                                                <% } %>
+                                                                    <div class="acc-book-item-title">
+                                                                        <%= books[i].book_title %>
+                                                                    </div>
+                                                                    <div class="acc-book-item-author">
+                                                                        <%= books[i].book_author %>
+                                                                    </div>
                                                         </div>
                                                         <div class="return">
                                                             <input type="checkbox" name="books[]" value="<%= books[i].book_id %>">

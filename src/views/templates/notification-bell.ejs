@@ -1,16 +1,48 @@
 <div class="bell-notification">
     <div class="bell">
         <i class="fa-solid fa-bell"></i>
-        <div class="num-notification"> 8 </div>
+        <div class="num-notification"> ! </div>
     </div>
     <div class="notification-content">
         <div class="notification-header">
-            <p> Recent activities </p>
+             Recent activities 
         </div>
-        <div class="notification-message">
-            <div class="notification-time"> Date</div>
-            <div class="notification-act"> Activities </div>
+        <div class="notification-body">
+            <% for(let[date,notification] of session.notification) { %>
+                <div class="notification-date"> 
+                    <%= date %>
+                </div>
+                <% for(var i = 0 ; i < notification.length ; i++) { %>
+                    <div class="notification-message">
+                        <div class="notification-time"> 
+                            <div>
+                            <% if(notification[i].hour_add < 10) { %>
+                                0<%=notification[i].hour_add %>:
+                            <% } else { %>
+                                <%=notification[i].hour_add %>:
+                            <% } %>
+                            </div> 
+                            <div>
+                            <% if(notification[i].minute_add < 10) { %>
+                                0<%=notification[i].minute_add %>
+                            <% } else { %>
+                                <%= notification[i].minute_add %>
+                            <% } %>
+                            </div>
+                        </div>
+                        <div class="notification-act"> <%= notification[i].noti%> </div>
+                        <% if(notification[i].query == 3) { %> 
+                            <i class="fa-solid fa-ellipsis"></i>
+                        <% } else if( notification[i].query == 5) { %>
+                            <i class="fa-solid fa-exclamation"></i>
+                        <% } else { %> 
+                            <i class="fa-solid fa-check"></i>
+                        <% } %> 
+                    </div>
+                <% } %> 
+            <% } %> 
         </div>
+        
         <div class="view-all"> <a onclick="Overlay('log')"> View all activities </a> </div>
     </div>
 </div>

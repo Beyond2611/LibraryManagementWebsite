@@ -6,24 +6,37 @@
         </div> 
         <div class="log-content">
             <div class="log-act">
-                <div class="act-date"> Date </div>
-                <div class="act-content"> 
-                    <div class="act-time"> Time </div>
-                    <div class="act-event"> Event </div>
-                </div>
-                <div class="act-content"> 
-                    <div class="act-time"> Time </div>
-                    <div class="act-event"> Event </div>
-                </div>
-                <div class="act-date"> Date </div>
-                <div class="act-content"> 
-                    <div class="act-time"> Time </div>
-                    <div class="act-event"> Event </div>
-                </div>
-                <div class="act-content"> 
-                    <div class="act-time"> Time </div>
-                    <div class="act-event"> Event </div>
-                </div>
+                <% for(let[date,notification] of session.notification) { %>
+                    <div class="act-date"> <%= date %> </div>
+                <% for(var i = 0 ; i < notification.length ; i++) { %>
+                     <div class="act-content"> 
+                         <div class="act-time"> 
+                            <div>
+                                <% if(notification[i].hour_add < 10) { %>
+                                    0<%=notification[i].hour_add %>:
+                                <% } else { %>
+                                    <%=notification[i].hour_add %>:
+                                <% } %>
+                            </div> 
+                            <div>
+                                <% if(notification[i].minute_add < 10) { %>
+                                    0<%=notification[i].minute_add %>
+                                <% } else { %>
+                                    <%= notification[i].minute_add %>
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="act-event"> <%= notification[i].noti%> </div>
+                            <% if(notification[i].query == 3) { %> 
+                                <i class="fa-solid fa-ellipsis"></i>
+                            <% } else if( notification[i].query == 5) { %>
+                                <i class="fa-solid fa-exclamation"></i>
+                            <% } else { %> 
+                                <i class="fa-solid fa-check"></i>
+                            <% } %>
+                    </div>
+                     <% } %> 
+                <% } %> 
             </div>
         </div> 
     </div>

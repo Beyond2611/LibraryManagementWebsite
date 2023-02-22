@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title> Libib | Library Management Web </title>
+    <title> WTW | Library Management Web </title>
     <%- include('../templates/library-stylesheet.ejs') %>
 </head>
 
@@ -32,34 +32,6 @@
                                 </div>
                             </li>
                         </ul>
-                        <div class = "due">
-                            <% for(var i = 0; i < session.dueBook.length; i++){ %>
-                                <div class="list-img">
-                                    <img src="<%= session.dueBook[i].cover %>">
-                                </div>
-                                <div class="list-info">
-                                <div class="list-info-title">
-                                    <%= session.dueBook[i].book_title %>
-                                </div>
-                                <div class="list-info-author">
-                                    <%= session.dueBook[i].author %>
-                                </div>
-                                    <%}%>
-                        </div>
-                                <div class = "overdue">
-                                    <% for(var i = 0; i < session.overdueBook.length; i++){ %>
-                                        <div class="list-img">
-                                            <img src="<%= session.overdueBook[i].cover %>">
-                                        </div>
-                                    <div class="list-info">
-                                        <div class="list-info-title">
-                                            <%= session.overdueBook[i].book_title %>
-                                        </div>
-                                        <div class="list-info-author">
-                                            <%= session.overdueBook[i].author %>
-                                        </div>
-                                        <%}%>
-                                    </div>
                 </div>
         </div>
 
