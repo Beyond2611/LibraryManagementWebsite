@@ -206,6 +206,7 @@ let getRequestsPage = async(req, res) => {
 }
 
 let SendRequest = async(req, res) => {
+    if (req.session.cart.length == 0) return res.redirect('/' + req.session.page);
     var StringifyObj = JSON.stringify(req.session.cart);
     console.log(StringifyObj);
     /*var ok = JSON.parse(StringifyObj);
@@ -247,18 +248,20 @@ let DeclineRequest = async(req, res) => {
 let getReturnBooksPage = async(req, res) => {
     req.session.page = "Return Books";
     var message = req.flash('message');
-    var [Borrow] = await pool.execute('select * from borrow br join books b on br.book_id = b.book_id ')
+    var [Borrow] = await pool.execute('select br.user_id , b.book_id , b.book_title , b.author , b.cover , datediff(br.return_date , current_date()) as DaysLeft from borrow br join books b on br.book_id = b.book_id ')
     var BookList = new Map();
     for (var i = 0; i < Borrow.length; i++) {
         BookList.set(Borrow[i].user_id, []);
     }
     for (var i = 0; i < Borrow.length; i++) {
-        BookList.set(Borrow[i].user_id, [...BookList.get(Borrow[i].user_id), { book_id: Borrow[i].book_id, book_title: Borrow[i].book_title, book_author: Borrow[i].author, book_cover: Borrow[i].cover }]);
+        BookList.set(Borrow[i].user_id, [...BookList.get(Borrow[i].user_id), { book_id: Borrow[i].book_id, book_title: Borrow[i].book_title, book_author: Borrow[i].author, book_cover: Borrow[i].cover, day_left: Borrow[i].DaysLeft }]);
     }
+    console.log(BookList);
     return res.render("return.ejs", { session: req.session, BookList, message });
 }
 
 let ReturnBooks = async(req, res) => {
+    if (!req.body.books) return res.redirect('/return');
     var Book = req.body.books;
     for (var i = 0; i < Book.length; i++) {
         await pool.execute('update books set available = 1 where book_id = ?', [Book[i]]);
