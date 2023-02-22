@@ -561,7 +561,7 @@ input[type=checkbox]:checked:before {
 }
 
 .notification-content .notification-body {
-    max-height: 400px;
+    height: 400px;
     overflow: hidden;
 }
 
