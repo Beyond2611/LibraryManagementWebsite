@@ -50,7 +50,7 @@ let Rate = async(req, res) => {
     console.log(req.params.book_id);
     console.log(req.body.rate);
     const [User] = await pool.execute('Select * from rating where user_id = ? and book_id = ?', [req.session.user_id, req.params.book_id]);
-    if (User.length) await pool.execute('update rating set point = ? where user_id = ?', [req.body.rate, req.session.user_id]);
+    if (User.length) await pool.execute('update rating set point = ? where user_id = ? and book_id = ?', [req.body.rate, req.session.user_id, req.params.book_id]);
     else await pool.execute('insert into rating (user_id, book_id, point) values (?,?,?)', [req.session.user_id, req.params.book_id, req.body.rate]);
     req.flash('message', 'Rate book successfully');
     res.redirect('/book/' + req.params.book_id);
