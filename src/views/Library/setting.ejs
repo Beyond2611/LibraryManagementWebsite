@@ -10,17 +10,16 @@
 <body>
     <%- include('../templates/success.ejs') %>
         <div class="user-interface">
-            <% const page="setting" %>
-                <%- include('../templates/nav-bar.ejs') %>
-                    <div class="container">
-                        <%- include('../templates/header.ejs') %>
-                            <ul class="accordion">
-                                <li class="accordion-item">
-                                    <div class="accordion-item-header">Display Mode</div>
-                                    <div class="accordion-item-body">
-                                        <form class="setting-form" method="POST" action="/change-theme">
-                                            <div class="select-theme">
-                                                <select name="theme">
+            <%- include('../templates/nav-bar.ejs') %>
+                <div class="container">
+                    <%- include('../templates/header.ejs') %>
+                        <ul class="accordion">
+                            <li class="accordion-item">
+                                <div class="accordion-item-header">Display Mode</div>
+                                <div class="accordion-item-body">
+                                    <form class="setting-form" method="POST" action="/change-theme">
+                                        <div class="select-theme">
+                                            <select name="theme">
                                                 <% if(session.theme == "" || session.theme == "royal") { %>
                                                <option name="royal" value="royal" selected>Royal</option>
                                                <option name="dark" value="dark">Dark</option>
@@ -29,13 +28,13 @@
                                                <option name="dark" value="dark" selected>Dark</option>
                                                <% } %>
                                            </select>
-                                            </div>
-                                            <input type="submit" value="Change theme" id="submit-theme" />
-                                        </form>
-                                    </div>
-                                </li>
-                            </ul>
-                    </div>
+                                        </div>
+                                        <input type="submit" value="Change theme" id="submit-theme" />
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                </div>
         </div>
 
 

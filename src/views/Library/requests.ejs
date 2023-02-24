@@ -8,55 +8,54 @@
 
 <body>
     <div class="user-interface">
-        <% const page="support" %>
-            <%- include('../templates/nav-bar.ejs') %>
-                <div class="container">
-                    <%- include('../templates/header.ejs') %>
-                        <%for(var item=0; item < Requests.length; item++){%>
-                            <%var itemArray=JSON.parse(Requests[item].request_desc); %>
-                                <div class="accordion">
-                                    <form class="requests" action="/requests/update/<%=Requests[item].request_id%>" method="POST">
-                                        <div class="accordion-item">
-                                            <div class="accordion-item-header">
-                                                Request from ID
-                                                <%=Requests[item].user_id%> :
-                                                    <%=itemArray.length%>
-                                                        books
-                                                        <i class="fa-solid fa-exclamation"></i>
-                                            </div>
-                                            <div class="accordion-item-body">
-                                                <%for(var books=0; books < itemArray.length; books++){%>
-                                                    <div class="acc-book">
-                                                        <div class="acc-book-num">
-                                                            <% var id=books + 1%>
-                                                                <%= id%>
+        <%- include('../templates/nav-bar.ejs') %>
+            <div class="container">
+                <%- include('../templates/header.ejs') %>
+                    <%for(var item=0; item < Requests.length; item++){%>
+                        <%var itemArray=JSON.parse(Requests[item].request_desc); %>
+                            <div class="accordion">
+                                <form class="requests" action="/requests/update/<%=Requests[item].request_id%>" method="POST">
+                                    <div class="accordion-item">
+                                        <div class="accordion-item-header">
+                                            Request from ID
+                                            <%=Requests[item].user_id%> :
+                                                <%=itemArray.length%>
+                                                    books
+                                                    <i class="fa-solid fa-exclamation"></i>
+                                        </div>
+                                        <div class="accordion-item-body">
+                                            <%for(var books=0; books < itemArray.length; books++){%>
+                                                <div class="acc-book">
+                                                    <div class="acc-book-num">
+                                                        <% var id=books + 1%>
+                                                            <%= id%>
+                                                    </div>
+                                                    <div class="acc-book-img">
+                                                        <img src="<%=itemArray[books].cover%>">
+                                                    </div>
+                                                    <div class="acc-book-item-info">
+                                                        <div class="acc-book-item-title">
+                                                            <%=itemArray[books].book_title%>
                                                         </div>
-                                                        <div class="acc-book-img">
-                                                            <img src="<%=itemArray[books].cover%>">
-                                                        </div>
-                                                        <div class="acc-book-item-info">
-                                                            <div class="acc-book-item-title">
-                                                                <%=itemArray[books].book_title%>
-                                                            </div>
-                                                            <div class="acc-book-item-author">
-                                                                <%=itemArray[books].author%>
-                                                            </div>
+                                                        <div class="acc-book-item-author">
+                                                            <%=itemArray[books].author%>
                                                         </div>
                                                     </div>
-                                                    <%}%>
-                                                        <div class="wrapper">
-                                                            <input type="submit" value="Accept">
-                                                            <input type="submit" formaction="/requests/delete/<%=Requests[item].request_id%>" value="Decline">
-                                                        </div>
-
-                                            </div>
+                                                </div>
+                                                <%}%>
+                                                    <div class="wrapper">
+                                                        <input type="submit" value="Accept">
+                                                        <input type="submit" formaction="/requests/delete/<%=Requests[item].request_id%>" value="Decline">
+                                                    </div>
 
                                         </div>
-                                    </form>
 
-                                </div>
-                                <%}%>
-                </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                            <%}%>
+            </div>
     </div>
 
 </body>
