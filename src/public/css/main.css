@@ -1971,7 +1971,7 @@ textarea {
 
 .rules {
     width: 70%;
-    border: 2px solid var(--text-icon-nav);
+    border: 0.1em solid var(--text-icon-nav);
     margin-left: 15%;
     margin-top: 40px;
     border-radius: 10px;
@@ -1985,17 +1985,17 @@ textarea {
     color: var(--text-icon-nav);
     font-size: 24px;
     font-weight: bold;
-    border-bottom: 1px solid var(--text-icon-nav);
+    border-bottom: 0.08em solid var(--text-icon-nav);
     margin-bottom: 10px;
 }
 
 .rules .rules-body {
-    border-bottom: 1px solid var(--text-icon-nav);
+    border-bottom: 0.1em solid var(--text-icon-nav);
 }
 
 .rules-body .rule {
     display: flex;
-    padding: 20px;
+    padding: 10px 20px 10px 20px;
     margin-bottom: 10px;
 }
 
