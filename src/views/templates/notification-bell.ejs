@@ -1,7 +1,11 @@
 <div class="bell-notification">
     <div class="bell">
         <i class="fa-solid fa-bell"></i>
-        <div class="num-notification"> ! </div>
+        <% if(session.notification_length < 10) { %>
+            <div class="num-notification"> <%= session.notification_length %> </div>
+        <% } else { %>
+            <div class="num-notification"> 9+ </div>
+        <% }%>
     </div>
     <div class="notification-content">
         <div class="notification-header">

@@ -56,6 +56,7 @@ let getLibraryPage = async(req, res) => {
         Notification.set(notification[i].date_add, [...Notification.get(notification[i].date_add), { noti: notification[i].noti, date_add: notification[i].date_add, hour_add: notification[i].hour_add, minute_add: notification[i].minute_add, query: notification[i].query }])
     }
     req.session.notification = Notification;
+    req.session.notification_length = notification.length;
     req.session.request = Request;
     req.session.Bookdata = Books;
     req.session.total = Books.length;
