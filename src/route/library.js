@@ -33,6 +33,7 @@ router.get("/library/:key", async(req, res) => {
     var key = req.params.key;
     if (key == '') res.redirect('/library');
     console.log(key);
+    var [Request] = await pool.execute('select * from request');
     var [Books] = await pool.execute('select * from books where book_title like ?', ['%' + key + '%']);
     var Booklist = new Set();
     for (var i = 0; i < Books.length; i++) {
@@ -41,8 +42,27 @@ router.get("/library/:key", async(req, res) => {
     var SortedTemp = Array.from(Booklist).sort();
     Booklist = new Set(SortedTemp);
     console.log(Booklist);
+    var [cart] = await pool.execute('select user_id, cart.book_id, books.book_title, books.author, books.cover from cart join books on cart.book_id = books.book_id where user_id = ? and pending = 0', [req.session.user_id]);
+    var [notification] = await pool.execute('select (case when l.query = 1 then concat("Borrow book ", b.book_title, " successfully") when l.query = 2 then concat("Return book ", b.book_title, " successfully") when l.query = 3 then "Your request is being processed. Please wait !" when l.query = 4 then "Your request is accepted" else "Your request is declined . Please reconsider !" end) as noti, l.day as date_add , EXTRACT(HOUR FROM l.day) as hour_add , EXTRACT(MINUTE FROM l.day) as minute_add , l.query as query from log l left join books b on l.book_id = b.book_id order by date_add DESC , hour_add DESC , minute_add DESC');
+    var Notification = new Map();
+    for (var i = 0; i < notification.length; i++) {
+        var timeStamp = Date.parse(notification[i].date_add);
+        //console.log(timeStamp);
+        const date = new Date(timeStamp);
+        notification[i].date_add = date.toLocaleDateString();
+    }
+    for (var i = 0; i < notification.length; i++) {
+        Notification.set(notification[i].date_add, []);
+    }
+    for (var i = 0; i < notification.length; i++) {
+        Notification.set(notification[i].date_add, [...Notification.get(notification[i].date_add), { noti: notification[i].noti, date_add: notification[i].date_add, hour_add: notification[i].hour_add, minute_add: notification[i].minute_add, query: notification[i].query }])
+    }
+    req.session.notification = Notification;
+    req.session.notification_length = notification.length;
     req.session.Bookdata = Books;
     req.session.BookLetters = Booklist;
+    req.session.cart = cart;
+    req.session.request = Request;
     var message = '';
     return res.render('library.ejs', { session: req.session, message, convert });
 });
@@ -52,6 +72,7 @@ router.get("/my-collection/:key", async(req, res) => {
     var key = req.params.key;
     if (key == '') res.redirect('/my-collection');
     console.log(key);
+    var [Request] = await pool.execute('select * from request');
     var [Books] = await pool.execute('select * from books b join borrow br on b.book_id = br.book_id where b.book_title like ? and br.user_id = ? ', ['%' + key + '%', req.session.user_id]);
     var Booklist = new Set();
     for (var i = 0; i < Books.length; i++) {
@@ -60,8 +81,27 @@ router.get("/my-collection/:key", async(req, res) => {
     var SortedTemp = Array.from(Booklist).sort();
     Booklist = new Set(SortedTemp);
     console.log(Booklist);
+    var [cart] = await pool.execute('select user_id, cart.book_id, books.book_title, books.author, books.cover from cart join books on cart.book_id = books.book_id where user_id = ? and pending = 0', [req.session.user_id]);
+    var [notification] = await pool.execute('select (case when l.query = 1 then concat("Borrow book ", b.book_title, " successfully") when l.query = 2 then concat("Return book ", b.book_title, " successfully") when l.query = 3 then "Your request is being processed. Please wait !" when l.query = 4 then "Your request is accepted" else "Your request is declined . Please reconsider !" end) as noti, l.day as date_add , EXTRACT(HOUR FROM l.day) as hour_add , EXTRACT(MINUTE FROM l.day) as minute_add , l.query as query from log l left join books b on l.book_id = b.book_id order by date_add DESC , hour_add DESC , minute_add DESC');
+    var Notification = new Map();
+    for (var i = 0; i < notification.length; i++) {
+        var timeStamp = Date.parse(notification[i].date_add);
+        //console.log(timeStamp);
+        const date = new Date(timeStamp);
+        notification[i].date_add = date.toLocaleDateString();
+    }
+    for (var i = 0; i < notification.length; i++) {
+        Notification.set(notification[i].date_add, []);
+    }
+    for (var i = 0; i < notification.length; i++) {
+        Notification.set(notification[i].date_add, [...Notification.get(notification[i].date_add), { noti: notification[i].noti, date_add: notification[i].date_add, hour_add: notification[i].hour_add, minute_add: notification[i].minute_add, query: notification[i].query }])
+    }
+    req.session.notification = Notification;
+    req.session.notification_length = notification.length;
     req.session.Bookdata = Books;
     req.session.BookLetters = Booklist;
+    req.session.cart = cart;
+    req.session.request = Request;
     var message = '';
     return res.render('my-collection.ejs', { session: req.session, message, convert });
 });

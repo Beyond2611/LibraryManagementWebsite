@@ -73,7 +73,7 @@ let getSearchedLibraryPage = async(req, res) => {
 }
 let SearchInLibrary = async(req, res) => {
     console.log(req.body);
-    res.redirect("/library/" + req.body.search);
+    res.redirect("/" + req.session.page + "/" + req.body.search);
 }
 
 // My collection Page 
