@@ -58,7 +58,7 @@
                             <i class="fas fa-exclamation-circle"></i>
                             <% }  %>
                                 <div class="input-group">
-                                    <input type="password" name="password" id="password" value="<%= password %>" />
+                                    <input type="password" name="password" id="password" />
                                     <div class="eye">
                                         <i id="close_password" onclick="PasswordVisualize('password')" class="fa-regular fa-eye-slash"></i>
                                     </div>
@@ -77,24 +77,24 @@
                             <i class="fas fa-exclamation-circle"></i>
                             <% }  %>
                                 <div class="input-group">
-                                    <input type="password" name="rpassword" id="rpassword" value="<%= rpassword %>" />
-                                    <div class="eye">
-                                        <i id="close_rpassword" onclick="PasswordVisualize('rpassword')" class="fa-regular fa-eye-slash"></i>
+                                    <input type="password" name="rpassword" id="rpassword" />
+                                    <div class="eye ">
+                                        <i id="close_rpassword " onclick="PasswordVisualize( 'rpassword') " class="fa-regular fa-eye-slash "></i>
                                     </div>
                                 </div>
                                 <% if(error_rpassword){ %>
-                                    <div class="error">
+                                    <div class="error ">
                                         <small> <%= error_rpassword %> </small>
                                     </div>
                                     <% } else { %>
                                         <small> Error message </small>
                                         <% } %>
                     </div>
-                    <div class="submit-btn">
-                        <input type="submit" value="Finish" />
+                    <div class="submit-btn ">
+                        <input type="submit " value="Finish " />
                     </div>
-                    <div class="signup-login">
-                        <span><a href="/login">Already have an account ?</a></span>
+                    <div class="signup-login ">
+                        <span><a href="/login ">Already have an account ?</a></span>
                     </div>
                 </form>
             </div>
