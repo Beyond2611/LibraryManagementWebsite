@@ -1,7 +1,7 @@
 import pool from '../configs/connectDB';
 const { check, validationResult } = require('express-validator');
 const books = require('../public/js/book');
-
+const bcrypt = require("bcryptjs")
 var dataUser = {
     'success': '',
     'account': '',
@@ -45,8 +45,8 @@ let LoginAuth = async(req, res) => {
     })
     const [findPassword] = await pool.execute('select password from user where account=?', [account]);
     if (findPassword.length == 0 && !dataUser.error_account) dataUser.error_account = 'Account does not exist';
-    if (findPassword.length != 0 && findPassword[0].password !== password && !dataUser.error_password) dataUser.error_password = 'Password is not correct';
-    if (errors.isEmpty() && findPassword.length != 0 && findPassword[0].password === password) {
+    if (findPassword.length != 0 && !bcrypt.compareSync(dataUser.password, findPassword[0].password) && !dataUser.error_password) dataUser.error_password = 'Password is not correct';
+    if (errors.isEmpty() && findPassword.length != 0 && bcrypt.compareSync(dataUser.password, findPassword[0].password)) {
         var [profile] = await pool.execute('select * from user where account = ?', [account]);
         var [perm] = await pool.execute('select manage_user, manage_book, manage_order from auth left join permission on auth.auth_level = permission.auth_level where user_id = ?', [profile[0].user_id]);
         await pool.execute('update user set last_login = current_timestamp() where account =?', [account]);
@@ -67,8 +67,8 @@ let SignUpAuth = async(req, res) => {
     let { account, email, password, rpassword } = req.body;
     dataUser.account = account;
     dataUser.email = email;
-    dataUser.password = password;
-    dataUser.rpassword = rpassword;
+    dataUser.password = bcrypt.hashSync(password);
+    dataUser.rpassword = bcrypt.hashSync(rpassword);
     const errors = validationResult(req);
     errors.array().forEach(element => {
         if (element.param == 'account') dataUser.error_account = element.msg;
@@ -81,7 +81,7 @@ let SignUpAuth = async(req, res) => {
     if (findByEmail.length != 0 && !dataUser.error_email) dataUser.error_email = 'Email already existed';
     if (findByAccount.length != 0 && !dataUser.error_account) dataUser.error_account = 'Account already existed';
     if (errors.isEmpty() && findByAccount.length == 0 && findByEmail.length == 0) {
-        await pool.execute('insert into user(account,email,password) values(?,?,?)', [account, email, password]);
+        await pool.execute('insert into user(account,email,password) values(?,?,?)', [account, email, dataUser.password]);
         var [id] = await pool.execute('select user_id from user where account =?', [account]);
         await pool.execute('insert into auth(user_id) value(?)', [id[0].user_id]);
         Clear(dataUser);
@@ -94,8 +94,8 @@ let ChangePasswordAuth = async(req, res) => {
     let { account, email, password, rpassword } = req.body;
     dataUser.account = account;
     dataUser.email = email;
-    dataUser.password = password;
-    dataUser.rpassword = rpassword;
+    dataUser.password = bcrypt.hashSync(password);
+    dataUser.rpassword = bcrypt.hashSync(rpassword);
     const errors = validationResult(req);
     const [findByAccount] = await pool.execute('select email from user where account = ?', [account]);
     errors.array().forEach(element => {
@@ -107,7 +107,7 @@ let ChangePasswordAuth = async(req, res) => {
     if (findByAccount.length == 0 && !dataUser.error_account) dataUser.error_account = 'Account does not exist';
     if (findByAccount.length != 0 && findByAccount[0].email !== email && !dataUser.error_email) dataUser.error_email = 'Email is not correct';
     if (errors.isEmpty() && findByAccount.length != 0 && findByAccount[0].email === email) {
-        await pool.execute('update user set password=? where account=?', [password, account]);
+        await pool.execute('update user set password=? where account=?', [dataUser.password, account]);
         Clear(dataUser);
         dataUser.success = 'Change password successfully';
         return res.redirect('/login');
